@@ -115,7 +115,7 @@ def figure_phase_partition():
     angles = np.linspace(0, 2 * np.pi, 721)
     best_angle, best_acc, best_msg = best_one_bit_partition(x, future, angles)
 
-    labels = ["random", "present\naxis", "best\n1-bit", "oracle"]
+    labels = ["random", "present\naxis", "future-\nrelevant", "oracle"]
     msgs = [random_msg, current_msg, best_msg, oracle_msg]
     accs = [np.mean(m == future) for m in msgs]
     mis = [binary_mutual_information(m, future) for m in msgs]
@@ -145,26 +145,26 @@ def figure_phase_partition():
     ax_bars = fig.add_subplot(gs[0, 1])
     ax_sweep = fig.add_subplot(gs[0, 2])
 
-    # Panel (a): scatter at delta=pi/2 with cuts
-    # Colors encode the FUTURE class F_{t+Delta}, not present phase --
-    # this is the conceptual hinge of the figure.
+    # Panel (a): scatter at delta=pi/2 with cuts.
+    # Colours encode the future class F_{t+Delta} (explained in caption,
+    # not in plot legend or title -- avoids redundancy).
     ax = ax_scatter
     idx = rng.choice(n, size=3200, replace=False)
     colors = np.where(future[idx] == 1, "#1f7770", "#b65a34")
-    ax.scatter(x[idx, 0], x[idx, 1], c=colors, s=5, alpha=0.38, linewidths=0,
-               label=r"colour = future class $F_{t+\Delta}$")
+    ax.scatter(x[idx, 0], x[idx, 1], c=colors, s=5, alpha=0.38, linewidths=0)
     lim = 2.15
     t = np.linspace(-lim, lim, 100)
     ax.plot(np.zeros_like(t), t, color="#52616b", lw=1.5, ls="--", label="present-axis cut")
     direction = best_angle + np.pi / 2
-    ax.plot(t * np.cos(direction), t * np.sin(direction), color="#101820", lw=2.0, label="best 1-bit cut")
+    ax.plot(t * np.cos(direction), t * np.sin(direction), color="#101820", lw=2.0,
+            label="future-relevant cut")
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlim(-lim, lim)
     ax.set_ylim(-lim, lim)
     ax.set_xlabel(r"substrate coordinate $X_1$")
     ax.set_ylabel(r"substrate coordinate $X_2$")
-    ax.set_title(r"(a) Substrate at $\Delta=\pi/2$, colour = future class", fontsize=10)
-    ax.legend(loc="upper right", frameon=False, fontsize=7.5)
+    ax.set_title(r"(a) Substrate at $\Delta=\pi/2$", fontsize=10)
+    ax.legend(loc="upper right", frameon=False, fontsize=8)
 
     # Panel (b): bar chart at delta=pi/2
     ax = ax_bars
@@ -187,7 +187,12 @@ def figure_phase_partition():
     ax.axhline(0.5, color="#27313a", lw=1, ls=":", alpha=0.7)
     ax.text(3.15, 0.505, "chance", ha="right", va="bottom", fontsize=8, color="#27313a")
 
-    # Panel (c): Delta sweep
+    # Panel (c): Delta sweep -- two curves plus chance baseline.
+    # Angular-error recovery is reported numerically in
+    # figures/phase_partition_results.txt rather than as a main-figure
+    # element, to keep the figure focused on the pedagogical claim:
+    # the present-axis cut fails at nonzero horizon, the future-relevant
+    # cut stays high.
     ax = ax_sweep
     ax.plot(
         deltas,
@@ -196,7 +201,7 @@ def figure_phase_partition():
         lw=2.0,
         marker="o",
         ms=4,
-        label="best 1-bit",
+        label="future-relevant 1-bit code",
     )
     ax.plot(
         deltas,
@@ -206,9 +211,9 @@ def figure_phase_partition():
         marker="s",
         ms=4,
         ls="--",
-        label="present axis",
+        label="present-axis code",
     )
-    ax.axhline(0.5, color="#27313a", lw=1, ls=":", alpha=0.7)
+    ax.axhline(0.5, color="#27313a", lw=1, ls=":", alpha=0.7, label="chance")
     ax.set_xlim(0, np.pi)
     ax.set_ylim(0.45, 1.05)
     ax.set_xlabel(r"future horizon $\Delta$ (radians)")
@@ -217,32 +222,6 @@ def figure_phase_partition():
     ax.set_xticklabels(["0", r"$\pi/4$", r"$\pi/2$", r"$3\pi/4$", r"$\pi$"])
     ax.legend(loc="lower left", frameon=False, fontsize=8)
     ax.set_title(r"(c) Sweep over $\Delta$", fontsize=10)
-
-    # Inset: angular error of the recovered projection-vector angle
-    # relative to the theoretical optimum -Delta. The partition
-    # (cos t x1 + sin t x2 > 0) is invariant under t -> t + pi (label
-    # flip), so the error is wrapped into (-pi/2, pi/2]. Near zero across
-    # the sweep confirms the search recovers the theoretical optimum
-    # (secondary check, not central to the message).
-    expected = (-deltas) % np.pi
-    raw_diff = sweep_best_angle - expected
-    angular_error = ((raw_diff + np.pi / 2) % np.pi) - np.pi / 2
-    ax_inset = ax.inset_axes([0.55, 0.08, 0.42, 0.30])
-    ax_inset.plot(
-        deltas, angular_error,
-        color="#b65a34", lw=1.2, marker="^", ms=3.0, alpha=0.85,
-    )
-    ax_inset.axhline(0, color="#27313a", lw=0.6, ls=":", alpha=0.6)
-    ax_inset.set_xlim(0, np.pi)
-    ax_inset.set_ylim(-np.pi / 8, np.pi / 8)
-    ax_inset.set_xticks([0, np.pi / 2, np.pi])
-    ax_inset.set_xticklabels(["0", r"$\pi/2$", r"$\pi$"], fontsize=7)
-    ax_inset.set_yticks([-np.pi / 8, 0, np.pi / 8])
-    ax_inset.set_yticklabels([r"$-\pi/8$", "0", r"$\pi/8$"], fontsize=7)
-    ax_inset.set_title("angular error", fontsize=7.5, color="#b65a34", pad=2)
-    ax_inset.tick_params(length=2, pad=1)
-    for spine in ax_inset.spines.values():
-        spine.set_linewidth(0.6)
 
     fig.tight_layout(pad=1.0)
     fig.savefig(FIG_DIR / "fig2_phase_partition_demo.pdf", bbox_inches="tight")

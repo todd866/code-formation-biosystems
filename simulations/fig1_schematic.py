@@ -65,7 +65,8 @@ def precompute_substrate_points(seed: int = 7):
 SUB_POINTS = precompute_substrate_points()
 
 
-def draw_substrate(ax, x_center=1.7, y_center=2.5, radius_x=1.35, radius_y=1.55):
+def draw_substrate(ax, x_center=1.7, y_center=2.5, radius_x=1.35, radius_y=1.55,
+                   show_label=True):
     """Draw the substrate ellipse with gray points, two coloured regions, and
     optimal-action arrows. Same geometry every call."""
     substrate = mpatches.Ellipse(
@@ -121,18 +122,20 @@ def draw_substrate(ax, x_center=1.7, y_center=2.5, radius_x=1.35, radius_y=1.55)
     )
     ax.text(s2_c[0], s2_c[1], "$S_2$", fontsize=11, ha="center", va="center",
             fontweight="bold", color="#0d2c52", zorder=4)
-    # Optimal action a2*: north arrow, placed ABOVE the substrate to avoid overlap
+    # Optimal action a2*: north arrow, placed adjacent to S_2 (not floating)
     ax.annotate(
-        "", xy=(s2_c[0] - 0.95, y_center + radius_y + 0.35),
-        xytext=(s2_c[0] - 0.95, y_center + radius_y - 0.15),
+        "", xy=(s2_c[0] + 0.55, s2_c[1] + 0.55),
+        xytext=(s2_c[0] + 0.55, s2_c[1] + 0.05),
         arrowprops=dict(arrowstyle="-|>", color=COLOR_S2, lw=1.6, mutation_scale=12),
     )
-    ax.text(s2_c[0] - 0.55, y_center + radius_y + 0.10, "$a_2^{\\star}$", fontsize=9,
-            va="center", color=COLOR_S2)
+    ax.text(s2_c[0] + 0.55, s2_c[1] + 0.70, "$a_2^{\\star}$", fontsize=9,
+            ha="center", color=COLOR_S2)
 
-    # Substrate label
-    ax.text(x_center, y_center - radius_y - 0.45,
-            "high-D substrate $X$", fontsize=10, ha="center", color="#34495e")
+    # Substrate label (only on the first/top panel; suppressed on the second
+    # to avoid duplicating the same label twice in the figure)
+    if show_label:
+        ax.text(x_center, y_center - radius_y - 0.45,
+                "high-D substrate $X$", fontsize=10, ha="center", color="#34495e")
 
     return s1_c, s2_c
 
@@ -171,15 +174,15 @@ def draw_puck(ax, x, y, label, color, alpha=0.5):
 
 def panel_aliasing(ax):
     """Panel (a): S1 and S2 alias to a single reliable message m."""
-    ax.set_xlim(0, 11)
+    ax.set_xlim(0, 9.5)
     ax.set_ylim(0, 5)
     ax.axis("off")
 
-    s1_c, s2_c = draw_substrate(ax)
+    s1_c, s2_c = draw_substrate(ax, show_label=True)
 
     # Funnel with very narrow neck (K=1) -- arrows pass THROUGH it
     draw_funnel(ax, x_left=3.7, x_right=5.0, y_top=3.6, y_bottom=1.4, neck_width=0.25)
-    ax.text(4.35, 3.95, "boundary  ($K=1$)", fontsize=10, ha="center", color="#7a5012")
+    ax.text(4.35, 3.85, "boundary  ($K=1$)", fontsize=9, ha="center", color="#7a5012")
 
     # Arrows from S1, S2 converge through the funnel neck (single codeword)
     neck_x = 4.35
@@ -194,89 +197,89 @@ def panel_aliasing(ax):
         arrowprops=dict(arrowstyle="-", color=COLOR_S2, lw=1.5,
                         connectionstyle="arc3,rad=-0.10"),
     )
-    # Continuation from funnel exit to single codeword puck
-    draw_puck(ax, 6.5, 2.5, "$m$", "#7f8c8d", alpha=0.5)
+    # Continuation from funnel exit to single codeword puck (tighter spacing)
+    draw_puck(ax, 5.85, 2.5, "$m$", "#7f8c8d", alpha=0.5)
     ax.annotate(
-        "", xy=(6.20, 2.5), xytext=(neck_x + 0.20, 2.5),
+        "", xy=(5.55, 2.5), xytext=(neck_x + 0.20, 2.5),
         arrowprops=dict(arrowstyle="-|>", color="#555", lw=1.6, mutation_scale=12),
     )
 
-    # Decoder: label ABOVE arrow, arrow itself east-pointing
-    ax.text(8.95, 2.85, "$\\delta(m) = a$", fontsize=11, ha="center", va="bottom",
+    # Decoder: label ABOVE arrow, arrow itself east-pointing (tighter)
+    ax.text(7.20, 2.78, "$\\delta(m) = a$", fontsize=10, ha="center", va="bottom",
             color="#3a3a3a")
     ax.annotate(
-        "", xy=(9.4, 2.5), xytext=(8.5, 2.5),
+        "", xy=(7.85, 2.5), xytext=(6.55, 2.5),
         arrowprops=dict(arrowstyle="-|>", color="#3a3a3a", lw=1.8, mutation_scale=14),
     )
 
     # Regret bracket on the right
-    bx = 9.7
-    ax.plot([bx, bx + 0.18, bx + 0.18, bx], [1.6, 1.6, 3.4, 3.4], color=COLOR_BAD, lw=1.4)
-    ax.text(bx + 0.30, 2.5,
-            "regret\n$\\geq \\gamma p$\non $S_1$ or $S_2$",
+    bx = 8.20
+    ax.plot([bx, bx + 0.16, bx + 0.16, bx], [1.6, 1.6, 3.4, 3.4], color=COLOR_BAD, lw=1.4)
+    ax.text(bx + 0.26, 2.5,
+            "regret\n$\\geq \\gamma p$",
             fontsize=9.5, ha="left", va="center", color=COLOR_BAD)
 
-    # Panel title
-    ax.text(5.5, 4.7,
-            "(a) Aliasing: $S_1, S_2$ share a reliable message",
-            fontsize=11.5, ha="center", fontweight="bold", color=COLOR_BAD)
+    # Panel title -- short
+    ax.text(4.75, 4.65,
+            "(a) Aliasing: one message",
+            fontsize=11, ha="center", fontweight="bold", color=COLOR_BAD)
 
 
 def panel_split(ax):
     """Panel (b): S1 -> m1, S2 -> m2 (distinct reliable messages)."""
-    ax.set_xlim(0, 11)
+    ax.set_xlim(0, 9.5)
     ax.set_ylim(0, 5)
     ax.axis("off")
 
-    s1_c, s2_c = draw_substrate(ax)
+    # Suppress duplicate "high-D substrate X" label here -- panel (a) has it
+    s1_c, s2_c = draw_substrate(ax, show_label=False)
 
     # Funnel with wider neck (K >= 2) -- arrows pass THROUGH at distinct heights
     draw_funnel(ax, x_left=3.7, x_right=5.0, y_top=3.6, y_bottom=1.4, neck_width=1.4)
-    ax.text(4.35, 3.95, "boundary  ($K \\geq 2$)", fontsize=10, ha="center", color="#7a5012")
+    ax.text(4.35, 3.85, "boundary  ($K \\geq 2$)", fontsize=9, ha="center", color="#7a5012")
 
-    # Two distinct codewords; arrows pass through the funnel and continue to them
-    draw_puck(ax, 6.5, 3.3, "$m_2$", COLOR_S2, alpha=0.45)
-    draw_puck(ax, 6.5, 1.7, "$m_1$", COLOR_S1, alpha=0.45)
+    # Two distinct codewords (tighter horizontal placement)
+    draw_puck(ax, 5.85, 3.3, "$m_2$", COLOR_S2, alpha=0.45)
+    draw_puck(ax, 5.85, 1.7, "$m_1$", COLOR_S1, alpha=0.45)
 
-    # Arrows from substrate -> funnel exit (distinct y) -> codeword
     ax.annotate(
-        "", xy=(6.20, 1.7), xytext=(s1_c[0] + 0.55, s1_c[1]),
+        "", xy=(5.55, 1.7), xytext=(s1_c[0] + 0.55, s1_c[1]),
         arrowprops=dict(arrowstyle="-|>", color=COLOR_S1, lw=1.5, mutation_scale=12,
                         connectionstyle="arc3,rad=0.06"),
     )
     ax.annotate(
-        "", xy=(6.20, 3.3), xytext=(s2_c[0] + 0.55, s2_c[1]),
+        "", xy=(5.55, 3.3), xytext=(s2_c[0] + 0.55, s2_c[1]),
         arrowprops=dict(arrowstyle="-|>", color=COLOR_S2, lw=1.5, mutation_scale=12,
                         connectionstyle="arc3,rad=-0.06"),
     )
 
-    # Decoder labels ABOVE their arrows (no strike-through)
-    ax.text(8.95, 3.65, "$\\delta(m_2) = a_2$", fontsize=11, ha="center", va="bottom", color=COLOR_S2)
+    # Decoder labels above their arrows (tighter, smaller)
+    ax.text(7.20, 3.55, "$\\delta(m_2) = a_2$", fontsize=10, ha="center", va="bottom", color=COLOR_S2)
     ax.annotate(
-        "", xy=(9.4, 3.3), xytext=(8.5, 3.3),
+        "", xy=(7.85, 3.3), xytext=(6.55, 3.3),
         arrowprops=dict(arrowstyle="-|>", color=COLOR_S2, lw=1.8, mutation_scale=14),
     )
-    ax.text(8.95, 2.05, "$\\delta(m_1) = a_1$", fontsize=11, ha="center", va="bottom", color=COLOR_S1)
+    ax.text(7.20, 1.95, "$\\delta(m_1) = a_1$", fontsize=10, ha="center", va="bottom", color=COLOR_S1)
     ax.annotate(
-        "", xy=(9.4, 1.7), xytext=(8.5, 1.7),
+        "", xy=(7.85, 1.7), xytext=(6.55, 1.7),
         arrowprops=dict(arrowstyle="-|>", color=COLOR_S1, lw=1.8, mutation_scale=14),
     )
 
     # Regret bracket
-    bx = 9.7
-    ax.plot([bx, bx + 0.18, bx + 0.18, bx], [1.0, 1.0, 4.0, 4.0], color=COLOR_GOOD, lw=1.4)
-    ax.text(bx + 0.30, 2.5,
-            "regret\n$< \\gamma p$\npossible",
+    bx = 8.20
+    ax.plot([bx, bx + 0.16, bx + 0.16, bx], [1.2, 1.2, 3.8, 3.8], color=COLOR_GOOD, lw=1.4)
+    ax.text(bx + 0.26, 2.5,
+            "regret\n$< \\gamma p$",
             fontsize=9.5, ha="left", va="center", color=COLOR_GOOD)
 
-    # Panel title
-    ax.text(5.5, 4.7,
-            "(b) Distinct reliable messages: $K \\geq r$",
-            fontsize=11.5, ha="center", fontweight="bold", color=COLOR_GOOD)
+    # Panel title -- short
+    ax.text(4.75, 4.65,
+            "(b) Separation: distinct messages",
+            fontsize=11, ha="center", fontweight="bold", color=COLOR_GOOD)
 
 
 def main():
-    fig, axes = plt.subplots(2, 1, figsize=(11, 7.0), gridspec_kw=dict(hspace=0.10))
+    fig, axes = plt.subplots(2, 1, figsize=(9.5, 6.5), gridspec_kw=dict(hspace=0.05))
     panel_aliasing(axes[0])
     panel_split(axes[1])
 

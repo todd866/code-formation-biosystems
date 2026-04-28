@@ -203,7 +203,7 @@ def write_summary(grid, agg, k_values, n_values, seeds, quick, runtime_seconds) 
 def plot_capacity(agg: dict, k_values: list[int], n_values: list[int], n_seeds: int) -> Path:
     fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.4))
 
-    palette = {"selection": "#1f7770", "random_search": "#52616b"}
+    palette = {"selection": "#1f7770", "random_search": "#a4abb1"}
     labels = {"selection": "selection", "random_search": "random-population baseline"}
     markers = {"selection": "o", "random_search": "^"}
 
@@ -243,23 +243,24 @@ def plot_capacity(agg: dict, k_values: list[int], n_values: list[int], n_seeds: 
                  fontsize=8, color="#27313a")
     axes[1].set_ylim(0, 1.0)
     axes[0].axvline(n_actions, color="#27313a", lw=1, ls=":", alpha=0.4)
-    axes[0].text(n_actions, axes[0].get_ylim()[0] + 0.02, f" $K=R={n_actions}$",
-                 fontsize=8, color="#27313a", ha="left", va="bottom")
+    # K=R=8 label above the vertical line, not in the legend's path
+    axes[0].text(n_actions, axes[0].get_ylim()[1] - 0.02, f"$K=R={n_actions}$",
+                 fontsize=8, color="#27313a", ha="center", va="top")
 
-    # Annotate effective alphabet size at the largest K under selection.
+    # Compact annotation at the K=32 selection point.
     # Effective codewords = 2^(entropy * log2(K)).
     k_max = k_values[-1]
     sel_ent_max = agg[(n_values[0], k_max, "selection")]["ent_mean"]
     eff_codewords = 2 ** (sel_ent_max * np.log2(k_max))
     axes[2].annotate(
-        f"$\\approx$ {eff_codewords:.0f} effective\ncodewords (out of {k_max})",
+        f"$\\approx${eff_codewords:.0f}/{k_max} effective",
         xy=(k_max, sel_ent_max),
-        xytext=(k_values[1], sel_ent_max - 0.05),
-        fontsize=8.5, color="#1f7770", ha="left", va="top",
-        arrowprops=dict(arrowstyle="->", color="#1f7770", lw=1.0, alpha=0.8),
+        xytext=(k_max * 0.32, sel_ent_max + 0.04),
+        fontsize=8, color="#1f7770", ha="center", va="bottom",
+        arrowprops=dict(arrowstyle="->", color="#1f7770", lw=0.9, alpha=0.7),
     )
 
-    fig.suptitle(f"Channel capacity sweep, fixed $R=8$ actions, mean +/- 95% CI ({n_seeds} seeds)",
+    fig.suptitle(f"Reliable alphabet size sweep, fixed $R=8$ actions, mean $\\pm$ 95% CI ({n_seeds} seeds)",
                  fontsize=11, y=1.02)
     fig.tight_layout(pad=1.0)
     out_pdf = FIG_DIR / "sweep_K_capacity.pdf"

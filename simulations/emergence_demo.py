@@ -180,7 +180,7 @@ def plot_partition(ax, theta, decoder, x, future, title):
         mask = m == k
         ax.scatter(
             x[mask, 0], x[mask, 1],
-            c=palette[decoder[k]], s=4, alpha=0.45, linewidths=0,
+            c=palette[decoder[k]], s=4, alpha=0.30, linewidths=0,
         )
     ax.set_aspect("equal")
     ax.set_xlim(-2.0, 2.0)
@@ -243,7 +243,7 @@ def main():
 
     # Final-evaluation samples for the partition panels
     rng_eval = np.random.default_rng(RNG_SEED + 999)
-    phi_eval, x_eval = sample_substrate(rng_eval, 4000)
+    phi_eval, x_eval = sample_substrate(rng_eval, 2400)
     future_eval = future_class(phi_eval)
 
     # Panel (a): a single random individual (not best-of-pop), to show
@@ -280,17 +280,16 @@ def main():
                   color="#b65a34", lw=2.0, label="drift (best of population)")
     ax_curve.axhline(1.0 / K, color="#27313a", ls=":", lw=1.0, alpha=0.7,
                      label=f"chance ($1/K = {1.0/K:.2f}$)")
-    ax_curve.axhline(fit_oracle, color="#27313a", ls=":", lw=1.0, alpha=0.4)
-    ax_curve.text(N_GENERATIONS - 1, fit_oracle - 0.04, "oracle",
-                  ha="right", va="top", fontsize=8, color="#27313a", alpha=0.7)
+    # Oracle reference (perfect classifier, accuracy = 1) is mentioned in
+    # the caption rather than drawn here, so the y-axis range stays
+    # compressed where the data lives.
     ax_curve.set_xlim(0, N_GENERATIONS - 1)
-    ax_curve.set_ylim(0.15, 1.05)
+    ax_curve.set_ylim(0.20, 0.85)
     ax_curve.set_xlabel("generation")
     ax_curve.set_ylabel("future-class accuracy")
     ax_curve.set_title("(d) Selection drives convergence to the slow-mode-aligned partition", fontsize=10)
-    # Legend above the plot to avoid crowding the data
-    ax_curve.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18),
-                    ncol=3, frameon=False, fontsize=9)
+    # Legend in the empty band between selection (~0.75) and drift (~0.40)
+    ax_curve.legend(loc="center right", frameon=False, fontsize=9)
 
     fig.tight_layout(pad=1.2)
     fig.savefig(FIG_DIR / "fig3_emergence_demo.pdf", bbox_inches="tight")

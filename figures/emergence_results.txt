@@ -8,8 +8,8 @@ generations=250
 samples_per_eval=1200
 
 # Best-of-population future-class accuracy on a held-out 4000-sample evaluation set
-random_init_accuracy=0.2958
-with_selection_final_accuracy=0.7540
-no_selection_final_accuracy=0.4155
+random_init_accuracy=0.3029
+with_selection_final_accuracy=0.7554
+no_selection_final_accuracy=0.4200
 oracle_accuracy=1.0000
 chance_baseline=0.2500
