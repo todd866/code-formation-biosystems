@@ -168,11 +168,11 @@ def best_individual(population, x, future):
 
 
 def plot_partition(ax, theta, decoder, x, future, title):
-    """Scatter substrate samples colored by codeword's predicted class.
+    """Scatter substrate samples colored by the decoder's predicted future class.
 
     Plots the first two substrate coordinates (the slow-mode-relevant ones).
     The remaining N-2 coordinates are distractor noise the encoder may or
-    may not have learned to ignore.
+    may not have learned to ignore. Color = decoded future class (one of K).
     """
     m = encode(theta, x)
     palette = ["#1f7770", "#b65a34", "#5b8db8", "#a55caf"]
@@ -275,27 +275,22 @@ def main():
 
     gens = np.arange(N_GENERATIONS)
     ax_curve.plot(gens, [h["best_fit"] for h in history_sel],
-                  color="#1f7770", lw=2.0, label="best of population (with selection)")
-    ax_curve.plot(gens, [h["mean_fit"] for h in history_sel],
-                  color="#1f7770", lw=1.0, ls="--", alpha=0.6,
-                  label="mean of population (with selection)")
+                  color="#1f7770", lw=2.0, label="selection (best of population)")
     ax_curve.plot(gens, [h["best_fit"] for h in history_dr],
-                  color="#b65a34", lw=2.0, label="best (no selection / drift)")
-    ax_curve.plot(gens, [h["mean_fit"] for h in history_dr],
-                  color="#b65a34", lw=1.0, ls="--", alpha=0.6,
-                  label="mean (no selection / drift)")
-    ax_curve.axhline(1.0 / K, color="#27313a", ls=":", lw=1.0, alpha=0.7)
-    ax_curve.text(N_GENERATIONS - 1, 1.0 / K + 0.01, "chance",
-                  ha="right", va="bottom", fontsize=8, color="#27313a")
-    ax_curve.axhline(fit_oracle, color="#27313a", ls=":", lw=1.0, alpha=0.7)
+                  color="#b65a34", lw=2.0, label="drift (best of population)")
+    ax_curve.axhline(1.0 / K, color="#27313a", ls=":", lw=1.0, alpha=0.7,
+                     label=f"chance ($1/K = {1.0/K:.2f}$)")
+    ax_curve.axhline(fit_oracle, color="#27313a", ls=":", lw=1.0, alpha=0.4)
     ax_curve.text(N_GENERATIONS - 1, fit_oracle - 0.04, "oracle",
-                  ha="right", va="top", fontsize=8, color="#27313a")
+                  ha="right", va="top", fontsize=8, color="#27313a", alpha=0.7)
     ax_curve.set_xlim(0, N_GENERATIONS - 1)
     ax_curve.set_ylim(0.15, 1.05)
     ax_curve.set_xlabel("generation")
     ax_curve.set_ylabel("future-class accuracy")
     ax_curve.set_title("(d) Selection drives convergence to the slow-mode-aligned partition", fontsize=10)
-    ax_curve.legend(loc="lower right", frameon=False, fontsize=8)
+    # Legend above the plot to avoid crowding the data
+    ax_curve.legend(loc="upper center", bbox_to_anchor=(0.5, -0.18),
+                    ncol=3, frameon=False, fontsize=9)
 
     fig.tight_layout(pad=1.2)
     fig.savefig(FIG_DIR / "fig3_emergence_demo.pdf", bbox_inches="tight")

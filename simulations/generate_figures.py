@@ -225,10 +225,13 @@ def figure_phase_partition():
     ax_sweep = fig.add_subplot(gs[0, 2])
 
     # Panel (a): scatter at delta=pi/2 with cuts
+    # Colors encode the FUTURE class F_{t+Delta}, not present phase --
+    # this is the conceptual hinge of the figure.
     ax = ax_scatter
     idx = rng.choice(n, size=3200, replace=False)
     colors = np.where(future[idx] == 1, "#1f7770", "#b65a34")
-    ax.scatter(x[idx, 0], x[idx, 1], c=colors, s=5, alpha=0.38, linewidths=0)
+    ax.scatter(x[idx, 0], x[idx, 1], c=colors, s=5, alpha=0.38, linewidths=0,
+               label=r"colour = future class $F_{t+\Delta}$")
     lim = 2.15
     t = np.linspace(-lim, lim, 100)
     ax.plot(np.zeros_like(t), t, color="#52616b", lw=1.5, ls="--", label="present-axis cut")
@@ -239,8 +242,8 @@ def figure_phase_partition():
     ax.set_ylim(-lim, lim)
     ax.set_xlabel(r"substrate coordinate $X_1$")
     ax.set_ylabel(r"substrate coordinate $X_2$")
-    ax.set_title(r"(a) Substrate at $\Delta=\pi/2$", fontsize=10)
-    ax.legend(loc="upper right", frameon=False, fontsize=8)
+    ax.set_title(r"(a) Substrate at $\Delta=\pi/2$, colour = future class", fontsize=10)
+    ax.legend(loc="upper right", frameon=False, fontsize=7.5)
 
     # Panel (b): bar chart at delta=pi/2
     ax = ax_bars
@@ -294,35 +297,31 @@ def figure_phase_partition():
     ax.legend(loc="lower left", frameon=False, fontsize=8)
     ax.set_title(r"(c) Sweep over $\Delta$", fontsize=10)
 
-    # Overlay the angular error of the recovered projection-vector angle
+    # Inset: angular error of the recovered projection-vector angle
     # relative to the theoretical optimum -Delta. The partition
     # (cos t x1 + sin t x2 > 0) is invariant under t -> t + pi (label
     # flip), so the error is wrapped into (-pi/2, pi/2]. Near zero across
-    # the sweep means the search recovers the theory.
+    # the sweep confirms the search recovers the theoretical optimum
+    # (secondary check, not central to the message).
     expected = (-deltas) % np.pi
     raw_diff = sweep_best_angle - expected
     angular_error = ((raw_diff + np.pi / 2) % np.pi) - np.pi / 2
-    ax2 = ax.twinx()
-    ax2.plot(
-        deltas,
-        angular_error,
-        color="#b65a34",
-        lw=1.4,
-        marker="^",
-        ms=3.5,
-        alpha=0.85,
-        label="angular error",
+    ax_inset = ax.inset_axes([0.55, 0.08, 0.42, 0.30])
+    ax_inset.plot(
+        deltas, angular_error,
+        color="#b65a34", lw=1.2, marker="^", ms=3.0, alpha=0.85,
     )
-    ax2.axhline(0, color="#b65a34", lw=0.8, ls=":", alpha=0.5)
-    ax2.set_ylabel(
-        "angular error from optimum (radians)", color="#b65a34"
-    )
-    ax2.tick_params(axis="y", colors="#b65a34")
-    ax2.set_ylim(-np.pi / 8, np.pi / 8)
-    ax2.set_yticks([-np.pi / 8, -np.pi / 16, 0, np.pi / 16, np.pi / 8])
-    ax2.set_yticklabels(
-        [r"$-\pi/8$", r"$-\pi/16$", "0", r"$\pi/16$", r"$\pi/8$"]
-    )
+    ax_inset.axhline(0, color="#27313a", lw=0.6, ls=":", alpha=0.6)
+    ax_inset.set_xlim(0, np.pi)
+    ax_inset.set_ylim(-np.pi / 8, np.pi / 8)
+    ax_inset.set_xticks([0, np.pi / 2, np.pi])
+    ax_inset.set_xticklabels(["0", r"$\pi/2$", r"$\pi$"], fontsize=7)
+    ax_inset.set_yticks([-np.pi / 8, 0, np.pi / 8])
+    ax_inset.set_yticklabels([r"$-\pi/8$", "0", r"$\pi/8$"], fontsize=7)
+    ax_inset.set_title("angular error", fontsize=7.5, color="#b65a34", pad=2)
+    ax_inset.tick_params(length=2, pad=1)
+    for spine in ax_inset.spines.values():
+        spine.set_linewidth(0.6)
 
     fig.tight_layout(pad=1.0)
     fig.savefig(FIG_DIR / "fig2_phase_partition_demo.pdf", bbox_inches="tight")

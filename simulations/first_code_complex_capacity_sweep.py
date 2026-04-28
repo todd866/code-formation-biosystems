@@ -209,7 +209,7 @@ def plot_capacity(agg: dict, k_values: list[int], n_values: list[int], n_seeds: 
 
     for which, ax, ylabel, title in [
         ("via", axes[0], "normalized viability\n(0 = mean action, 1 = oracle)",
-         f"(a) Viability vs channel capacity"),
+         f"(a) Viability vs alphabet size"),
         ("acc", axes[1], "best-of-population action accuracy",
          f"(b) Oracle-action agreement"),
         ("ent", axes[2], "best-of-population message entropy\n(normalized to log2(K))",
@@ -230,11 +230,12 @@ def plot_capacity(agg: dict, k_values: list[int], n_values: list[int], n_seeds: 
         ax.set_xscale("log", base=2)
         ax.set_xticks(k_values)
         ax.set_xticklabels([str(k) for k in k_values])
-        ax.set_xlabel("channel capacity $K$ (codewords)")
+        ax.set_xlabel("reliable alphabet size $K$")
         ax.set_ylabel(ylabel)
         ax.set_title(title, fontsize=10)
         ax.grid(True, ls=":", alpha=0.3, which="both")
-        ax.legend(loc="best", frameon=False, fontsize=8)
+    # Single legend for the whole row, anchored under panel (a)
+    axes[0].legend(loc="lower left", frameon=False, fontsize=8)
 
     n_actions = BASE_CONFIG["n_actions"]
     axes[1].axhline(1.0 / n_actions, color="#27313a", lw=1, ls=":", alpha=0.7)
@@ -244,6 +245,19 @@ def plot_capacity(agg: dict, k_values: list[int], n_values: list[int], n_seeds: 
     axes[0].axvline(n_actions, color="#27313a", lw=1, ls=":", alpha=0.4)
     axes[0].text(n_actions, axes[0].get_ylim()[0] + 0.02, f" $K=R={n_actions}$",
                  fontsize=8, color="#27313a", ha="left", va="bottom")
+
+    # Annotate effective alphabet size at the largest K under selection.
+    # Effective codewords = 2^(entropy * log2(K)).
+    k_max = k_values[-1]
+    sel_ent_max = agg[(n_values[0], k_max, "selection")]["ent_mean"]
+    eff_codewords = 2 ** (sel_ent_max * np.log2(k_max))
+    axes[2].annotate(
+        f"$\\approx$ {eff_codewords:.0f} effective\ncodewords (out of {k_max})",
+        xy=(k_max, sel_ent_max),
+        xytext=(k_values[1], sel_ent_max - 0.05),
+        fontsize=8.5, color="#1f7770", ha="left", va="top",
+        arrowprops=dict(arrowstyle="->", color="#1f7770", lw=1.0, alpha=0.8),
+    )
 
     fig.suptitle(f"Channel capacity sweep, fixed $R=8$ actions, mean +/- 95% CI ({n_seeds} seeds)",
                  fontsize=11, y=1.02)

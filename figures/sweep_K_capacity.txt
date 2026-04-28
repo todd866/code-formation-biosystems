@@ -1,61 +1,61 @@
 # Capacity / bottleneck sweep for first-code emergence
-# quick=False  runtime_seconds=139.5
+# quick=False  runtime_seconds=119.7
 # K_values=[2, 4, 8, 16, 32]  N_values=[128]  seeds=[321, 322, 323, 324, 325]
 # conditions=['selection', 'random_search']
 # base_config={"latent_dim": 10, "n_actions": 8, "pop_size": 160, "generations": 450, "samples_per_gen": 768, "eval_samples": 12000, "mutation_std": 0.045, "bias_mutation_std": 0.018, "decoder_flip_prob": 0.08, "elite_frac": 0.45, "slow_noise": 0.14, "substrate_noise": 0.28, "future_delta": 1.1, "run_drift": false, "run_random_search": true}
 
 ## Per-run metrics
    N    K  seed condition       viability   accuracy    entropy    secs
- 128    2   321 selection          0.4687     0.1887     0.9813     1.8
- 128    2   321 random_search      0.3274     0.1437     0.9882     1.7
- 128    2   322 selection          0.7153     0.5112     1.0000     1.9
- 128    2   322 random_search      0.3378     0.2852     0.9203     1.7
- 128    2   323 selection          0.6528     0.4158     0.9644     1.8
- 128    2   323 random_search      0.4367     0.3176     0.9873     1.8
- 128    2   324 selection          0.6020     0.4108     0.9986     1.9
+ 128    2   321 selection          0.4687     0.1887     0.9813     1.7
+ 128    2   321 random_search      0.3274     0.1437     0.9882     1.6
+ 128    2   322 selection          0.7153     0.5112     1.0000     1.7
+ 128    2   322 random_search      0.3378     0.2852     0.9203     1.6
+ 128    2   323 selection          0.6528     0.4158     0.9644     1.7
+ 128    2   323 random_search      0.4367     0.3176     0.9873     1.6
+ 128    2   324 selection          0.6020     0.4108     0.9986     1.7
  128    2   324 random_search      0.3542     0.3331     0.9341     1.6
- 128    2   325 selection          0.5982     0.3923     0.9998     1.9
- 128    2   325 random_search      0.2754     0.2767     0.9899     1.7
- 128    4   321 selection          0.7559     0.5552     0.9895     2.2
- 128    4   321 random_search      0.2440     0.2386     0.9580     2.1
- 128    4   322 selection          0.7109     0.5048     0.8817     2.2
- 128    4   322 random_search      0.3745     0.2764     0.8940     2.1
- 128    4   323 selection          0.6196     0.3965     0.9308     2.3
- 128    4   323 random_search      0.2974     0.2777     0.9847     2.1
- 128    4   324 selection          0.6899     0.5253     0.9977     2.3
- 128    4   324 random_search      0.2833     0.2808     0.9655     2.2
- 128    4   325 selection          0.7756     0.5900     0.9571     2.4
- 128    4   325 random_search      0.2326     0.2696     0.9005     2.3
- 128    8   321 selection          0.7762     0.5923     0.8930     2.8
- 128    8   321 random_search      0.2339     0.2172     0.9735     2.8
- 128    8   322 selection          0.6960     0.5018     0.7454     2.8
- 128    8   322 random_search      0.3154     0.2932     0.9735     3.1
- 128    8   323 selection          0.7111     0.4909     0.8284     2.5
- 128    8   323 random_search      0.2093     0.2142     0.9528     2.9
- 128    8   324 selection          0.7779     0.6105     0.8985     2.8
- 128    8   324 random_search      0.3016     0.2677     0.8805     2.7
- 128    8   325 selection          0.7345     0.5694     0.8051     3.1
- 128    8   325 random_search      0.2262     0.1656     0.9570     3.2
- 128   16   321 selection          0.7808     0.5922     0.8029     3.4
- 128   16   321 random_search      0.2435     0.2162     0.9227     3.3
- 128   16   322 selection          0.6893     0.4963     0.8164     3.2
- 128   16   322 random_search      0.1962     0.1833     0.9027     3.2
- 128   16   323 selection          0.7422     0.5372     0.8413     3.1
- 128   16   323 random_search      0.2048     0.2062     0.9052     3.4
- 128   16   324 selection          0.7786     0.6099     0.7234     3.1
- 128   16   324 random_search      0.2574     0.3033     0.9539     3.8
- 128   16   325 selection          0.7453     0.5822     0.7802     3.2
- 128   16   325 random_search      0.2142     0.2376     0.8536     2.8
- 128   32   321 selection          0.7160     0.5468     0.7133     3.8
- 128   32   321 random_search      0.1345     0.1961     0.9316     4.0
- 128   32   322 selection          0.6895     0.5234     0.6466     3.8
- 128   32   322 random_search      0.1722     0.1765     0.9228     3.9
- 128   32   323 selection          0.6819     0.4865     0.7578     3.7
- 128   32   323 random_search      0.1435     0.2037     0.8557     4.0
- 128   32   324 selection          0.7170     0.5529     0.7335     3.7
- 128   32   324 random_search      0.1965     0.2242     0.8810     3.9
- 128   32   325 selection          0.7247     0.5530     0.6190     3.7
- 128   32   325 random_search      0.1516     0.1912     0.8857     4.0
+ 128    2   325 selection          0.5982     0.3923     0.9998     1.7
+ 128    2   325 random_search      0.2754     0.2767     0.9899     1.6
+ 128    4   321 selection          0.7559     0.5552     0.9895     2.0
+ 128    4   321 random_search      0.2440     0.2386     0.9580     1.9
+ 128    4   322 selection          0.7109     0.5048     0.8817     2.1
+ 128    4   322 random_search      0.3745     0.2764     0.8940     1.9
+ 128    4   323 selection          0.6196     0.3965     0.9308     2.0
+ 128    4   323 random_search      0.2974     0.2777     0.9847     1.9
+ 128    4   324 selection          0.6899     0.5253     0.9977     2.1
+ 128    4   324 random_search      0.2833     0.2808     0.9655     2.0
+ 128    4   325 selection          0.7756     0.5900     0.9571     2.0
+ 128    4   325 random_search      0.2326     0.2696     0.9005     1.9
+ 128    8   321 selection          0.7762     0.5923     0.8930     2.6
+ 128    8   321 random_search      0.2339     0.2172     0.9735     2.5
+ 128    8   322 selection          0.6960     0.5018     0.7454     2.4
+ 128    8   322 random_search      0.3154     0.2932     0.9735     2.4
+ 128    8   323 selection          0.7111     0.4909     0.8284     2.3
+ 128    8   323 random_search      0.2093     0.2142     0.9528     2.4
+ 128    8   324 selection          0.7779     0.6105     0.8985     2.5
+ 128    8   324 random_search      0.3016     0.2677     0.8805     2.4
+ 128    8   325 selection          0.7345     0.5694     0.8051     2.4
+ 128    8   325 random_search      0.2262     0.1656     0.9570     2.4
+ 128   16   321 selection          0.7808     0.5922     0.8029     2.4
+ 128   16   321 random_search      0.2435     0.2162     0.9227     2.4
+ 128   16   322 selection          0.6893     0.4963     0.8164     2.4
+ 128   16   322 random_search      0.1962     0.1833     0.9027     2.4
+ 128   16   323 selection          0.7422     0.5372     0.8413     2.4
+ 128   16   323 random_search      0.2048     0.2062     0.9052     2.5
+ 128   16   324 selection          0.7786     0.6099     0.7234     2.4
+ 128   16   324 random_search      0.2574     0.3033     0.9539     2.4
+ 128   16   325 selection          0.7453     0.5822     0.7802     2.4
+ 128   16   325 random_search      0.2142     0.2376     0.8536     2.4
+ 128   32   321 selection          0.7160     0.5468     0.7133     3.3
+ 128   32   321 random_search      0.1345     0.1961     0.9316     3.6
+ 128   32   322 selection          0.6895     0.5234     0.6466     3.4
+ 128   32   322 random_search      0.1722     0.1765     0.9228     3.6
+ 128   32   323 selection          0.6819     0.4865     0.7578     3.3
+ 128   32   323 random_search      0.1435     0.2037     0.8557     3.6
+ 128   32   324 selection          0.7170     0.5529     0.7335     3.4
+ 128   32   324 random_search      0.1965     0.2242     0.8810     3.6
+ 128   32   325 selection          0.7247     0.5530     0.6190     3.4
+ 128   32   325 random_search      0.1516     0.1912     0.8857     3.7
 
 ## Aggregate (mean +/- 95% CI across seeds)
    N    K condition        via_mean     via_ci   acc_mean     acc_ci   ent_mean     ent_ci
