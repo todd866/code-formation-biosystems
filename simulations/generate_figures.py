@@ -54,89 +54,10 @@ def add_arrow(ax, start, end, color="#27313a", width=1.4, rad=0.0):
     )
 
 
-def figure_boundary_code():
-    fig, ax = plt.subplots(figsize=(9.2, 4.8))
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.axis("off")
-
-    rng = np.random.default_rng(3)
-
-    # High-dimensional substrate represented by many microstates.
-    substrate = Circle((0.16, 0.52), 0.17, facecolor="#d9edf2", edgecolor="#1f5663", lw=1.4)
-    ax.add_patch(substrate)
-    pts = rng.normal(size=(135, 2))
-    pts = pts / np.maximum(np.linalg.norm(pts, axis=1, keepdims=True), 1e-8)
-    r = np.sqrt(rng.uniform(0, 1, size=(135, 1))) * 0.145
-    pts = np.array([0.16, 0.52]) + pts * r
-    ax.scatter(pts[:, 0], pts[:, 1], s=8, color="#1f5663", alpha=0.75, linewidths=0)
-    ax.text(
-        0.16,
-        0.28,
-        r"high-dimensional" "\n" r"substrate $X$",
-        ha="center",
-        va="center",
-        fontsize=9,
-    )
-
-    add_box(
-        ax,
-        (0.36, 0.39),
-        (0.10, 0.26),
-        "finite\nboundary\nchannel",
-        "#f4dfcf",
-        fontsize=8.5,
-    )
-    add_box(
-        ax,
-        (0.55, 0.34),
-        (0.14, 0.36),
-        "fiber\npartition\n" + r"$M=\pi(X)$" + "\n" + r"$\{m_1,m_2,m_3\}$",
-        "#e6e2f5",
-        fontsize=8.5,
-    )
-    add_box(
-        ax,
-        (0.77, 0.39),
-        (0.13, 0.26),
-        "decoder\nresponse\n" + r"$\delta(M)$",
-        "#dcebd7",
-        fontsize=8.5,
-    )
-
-    add_arrow(ax, (0.33, 0.52), (0.36, 0.52))
-    add_arrow(ax, (0.46, 0.52), (0.55, 0.52))
-    add_arrow(ax, (0.69, 0.52), (0.77, 0.52))
-
-    # Slow mode shown as a long trajectory feeding the partition and decoder.
-    xs = np.linspace(0.08, 0.91, 300)
-    ys = 0.84 + 0.035 * np.sin(2 * np.pi * 2.2 * xs)
-    ax.plot(xs, ys, color="#9b3d2f", lw=2)
-    ax.text(
-        0.50,
-        0.93,
-        r"slow-mode trajectory coordinate $\phi$",
-        ha="center",
-        va="center",
-        fontsize=9,
-    )
-    add_arrow(ax, (0.52, 0.82), (0.60, 0.70), color="#9b3d2f", width=1.1, rad=-0.2)
-    add_arrow(ax, (0.77, 0.82), (0.82, 0.65), color="#9b3d2f", width=1.1, rad=-0.2)
-
-    ax.text(
-        0.50,
-        0.12,
-        "capacity forces projection; viability loss selects reusable action-relevant fibers",
-        ha="center",
-        va="center",
-        fontsize=9,
-        color="#27313a",
-    )
-
-    fig.tight_layout(pad=0.3)
-    fig.savefig(FIG_DIR / "fig1_boundary_code_schematic.pdf", bbox_inches="tight")
-    fig.savefig(FIG_DIR / "fig1_boundary_code_schematic.png", dpi=240, bbox_inches="tight")
-    plt.close(fig)
+# NOTE: Figure 1 (boundary-code schematic) is now produced by
+# fig1_schematic.py. The previous block-diagram version that lived here
+# has been removed to avoid silently overwriting the new schematic when
+# this script is re-run.
 
 
 def binary_mutual_information(messages, target):
@@ -353,7 +274,6 @@ def figure_phase_partition():
 
 
 def main():
-    figure_boundary_code()
     figure_phase_partition()
 
 
