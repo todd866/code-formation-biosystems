@@ -1,0 +1,603 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{array}
+
+\setlength{\emergencystretch}{3em}
+\doublespacing
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\I}{I}
+\newcommand{\C}{C}
+\newcommand{\loss}{\ell}
+\newcommand{\eps}{\varepsilon}
+
+\title{Code Formation at Dimensional Boundaries:\\
+Finite-Bandwidth Coordination and Anticipation in Biology}
+
+\author{Ian Todd\\
+Sydney Medical School\\
+University of Sydney\\
+Sydney, NSW, Australia\\
+\texttt{itod2305@uni.sydney.edu.au}}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+A biological code is what survives when high-dimensional dynamics must coordinate through a boundary too narrow to carry them. This paper develops the claim formally. A rate-distortion and data-processing argument shows that retained low-loss protocols at finite-bandwidth boundaries take the form of finite partitions of substrate state, with fibers coherent under their assigned responses. Under finite or discretized conditions, an alternating Lloyd--Bayes improvement dynamics on encoder--decoder pairs decreases risk monotonically and has partition-shaped stationary limit points. When the substrate contains mutually action-incompatible regimes, the alphabet of any low-regret protocol is bounded below by the number of such regimes, so codes are forced rather than merely admitted; below that capacity, an explicit regret floor acts. A sufficient-statistic argument extends the principle across timescales: when the substrate is entrained to a slow trajectory, anticipatory content can reside in the boundary message, in the receiver's entrained context, or in both. The operational unit is therefore the code--context pair, and stable codewords can acquire different meanings at gating events without the message itself preserving phase. The framework predicts where codes appear, where continuous coupling persists, and how channel bandwidth, slow-mode coupling, and viability pressure shape the partition. It does not derive any particular alphabet such as the codon table; it explains why such alphabets exist as a general boundary phenomenon.
+\end{abstract}
+
+\noindent\textbf{Keywords:} biological codes; code formation; dimensionality; rate-distortion; anticipation; biosemiotics
+
+\section{Introduction}
+
+A biological code is what survives when high-dimensional dynamics must coordinate through a boundary too narrow to carry them. Living systems are full of such codes. Nucleotide triplets map to amino acids. Spikes and oscillatory phases coordinate neural populations. Morphogens and bioelectric fields guide cell fate. Receptors and ligands mediate immune, endocrine, and developmental recognition. Bacteria use quorum-sensing molecules to coordinate population behavior. Animals compress high-dimensional bodily and social states into gestures, calls, and displays. The diversity of biological codes is not in doubt; the harder question is why coding itself appears so persistently.
+
+Most accounts begin after codes already exist. Shannon information theory quantifies transmission once an alphabet and channel are specified \citep{shannon1948,coverthomas2006}. Molecular biology describes the genetic code as a mapping from codons to amino acids \citep{crick1968}. Biosemiotics and code biology emphasize that life depends on symbolic relations mediated by adapters and interpreters \citep{pattee1969,pattee2001,barbieri2003,barbieri2015,hoffmeyer2008,emmeche1991}. Polanyi's account of life as a system of boundary conditions already points in this direction: living organization channels chemistry by constraints not reducible to chemistry alone \citep{polanyi1968}. Signaling-game theory shows how conventions stabilize once sender and receiver payoffs reward coordination \citep{lewis1969,skyrms2010}. These approaches identify essential features of codes, but they leave a prior constraint underdeveloped: why finite reusable alphabets should form at the boundaries of high-dimensional biological systems in the first place.
+
+The answer proposed here is that codes form at \emph{dimensional boundaries}. A dimensional boundary is an interface at which the relevant state space on one side has more task-relevant degrees of freedom than the channel to the other side can transmit. A cell cannot transmit its full molecular state to a neighbor. A cortical area cannot transmit its full oscillatory field to a distant area through finite axons. A germline cannot transmit the full trajectory of parental physiology across generations. An organism cannot transmit its entire internal state to another organism through behavior. In each case, direct state sharing is impossible. What can cross is a compressed signal. If coordination recurs and selection favors successful compression, the signal becomes reusable: the substrate state space is partitioned into equivalence classes that preserve downstream-relevant distinctions and discard within-class variation. Such a retained stable partition is a code.
+
+Many biological codes do more than compress. They bind fast local dynamics to slow trajectories. Circadian phase constrains metabolism before dawn. Developmental stage constrains local cell decisions before the final body form exists. Lineage-scale slow variables constrain reachable future states of descendant chemistry. Neural low-frequency rhythms gate high-frequency local computation before behavioral commitment. In each case, a system coupled to a slow variable gains anticipatory structure. It does not predict the future by simulating future microstates. It is synchronized to a slow trajectory whose present coordinate already constrains which future states are reachable. This use of anticipation follows Rosen's anticipatory systems and later relational accounts in which living systems are organized by constraints that refer to possible future states \citep{rosen1985,igamberdiev1993,igamberdiev2014,igamberdiev2021}; it is also adjacent to predictive-information and active-inference accounts \citep{bialek2001,friston2010}. The contribution here is narrower and more mechanical: it asks why finite biological codes are the natural physical implementation of such constraints when the regulated substrate cannot itself cross the boundary that interprets it.
+
+The claim is not that all biological categories deserve the name ``code.'' It is that under recurrent coordination across a finite-bandwidth boundary with viability pressure, retained successful protocols have the structure of finite partitions of substrate state. A code is such a partition when it is (i) finite or effectively finite at the boundary, (ii) recurrent across episodes, (iii) interpreted by a downstream mechanism, and (iv) action-guiding in a way that improves viability, regulation, or coordination.
+
+This makes code formation the next step in a sequence on information-theoretic constraints in biological substrates. Previous papers in this program addressed what observers can falsify \citep{todd2025falsifiability}, what they can measure in continuous substrates \citep{todd2025maxwell}, why intelligence requires high-dimensional internal dynamics with low-dimensional interfaces \citep{todd2026a_intelligence}, and how biological oscillator assemblies are rate-limited by coherence time \citep{todd2026b_coherencetime}. The present paper addresses the downstream consequence: when such substrates coordinate across boundaries and timescales, finite codes form, and the strongest of them inherit anticipatory horizon by entraining to slow modes.
+
+The rest of the paper is organised as follows. Section~\ref{sec:problem} defines the code-formation problem. Section~\ref{sec:framework} gives the formal setup. Section~\ref{sec:theorem} states the projection, non-recoverability, partition, convergence, forced-nontriviality, and anticipation results, with a worked one-bit example. Section~\ref{sec:emergence} shows that the predicted partition is reachable from random initial conditions under selection on coordination loss, and that channel capacity shapes the effective codeword alphabet. Section~\ref{sec:mechanism} sketches biological implementation. Section~\ref{sec:cases} lists biological instances. Sections~\ref{sec:predictions}--\ref{sec:objections} give predictions and address objections. Section~\ref{sec:prior} situates the work in the prior papers. Section~\ref{sec:conclusion} concludes.
+
+\section{The code-formation problem}
+\label{sec:problem}
+
+The genetic code is a mapping from nucleotide triplets to amino acids. Neural codes are relationships between neural activity and represented or controlled variables. Morphogenetic and bioelectric codes describe mappings between tissue-level signals and patterning outcomes \citep{levin2023,levin2025multiscale}. Immune codes map molecular surface features and interaction histories into tolerance, activation, or attack. Behavioral codes map bodily states into signals interpretable by conspecifics. These examples differ mechanistically, but they share a structure:
+\begin{enumerate}
+\item A high-dimensional substrate has more internal degrees of freedom than can cross the relevant boundary.
+\item A finite or low-dimensional signal crosses the boundary.
+\item A downstream system treats the signal as selecting among possible responses.
+\item The mapping recurs across episodes and is stabilized by selection, learning, development, or homeostasis.
+\item The signal does not merely correlate with a substrate state; it triggers downstream dynamics or action.
+\end{enumerate}
+
+The code-formation problem is to explain why this structure emerges. The problem is not transmission, which begins with a source alphabet; it is not convention, which presupposes agents already capable of choosing signals; it is not representation, which asks what a symbol means. Code formation asks why a substrate is partitioned into symbol-bearing classes at all.
+
+Existing approaches supply ingredients but leave the prior constraint underdeveloped. Shannon theory gives the capacity constraint \citep{shannon1948,coverthomas2006}; rate-distortion theory gives an optimization problem under limited rate \citep{coverthomas2006,gray1998}; the information-bottleneck method preserves information about a relevant variable while compressing the input \citep{tishby1999}; predictive-information work asks how much the past contains about the future \citep{bialek2001}. Biosemiotic and code-biology approaches identify the interpretive architecture: Pattee's epistemic cut distinguishes physical dynamics from symbolic constraints \citep{pattee1969,pattee2001}, and Barbieri argues that organic codes are realized by adapters establishing correspondences between independent worlds \citep{barbieri2003,barbieri2015}. Signaling games \citep{lewis1969,skyrms2010} explain how senders and receivers converge on conventions, but typically begin with finite state and signal sets. Biological code formation requires explaining how a continuous high-dimensional substrate becomes partitioned into such finite sets in the first place. The missing constraint is dimensional mismatch at boundaries combined with viability pressure.
+
+\section{Formal framework}
+\label{sec:framework}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{%
+\textbf{On ``dimensionality.''} Throughout this paper we use \emph{dimensionality} in the \textbf{ML/complex-systems sense}: the effective/intrinsic degrees of freedom of accessible dynamics (e.g., participation ratio or effective rank of covariance/response spectra, or measure of the coherently accessible region)---\textbf{not} geometric embedding dimension. Measurement through a finite channel projects high-dimensional substrate state onto a lower-dimensional readout, in the sense developed in the prior papers in this program \citep{todd2025falsifiability,todd2025maxwell}.}}
+
+\begin{definition}[Biological substrate]
+A biological substrate is a physical system with state $X_t \in \X$ evolving over time, where $\X$ is a high-dimensional state space whose task-relevant distinctions exceed what a boundary channel can transmit exactly.
+\end{definition}
+
+\begin{definition}[Boundary channel]
+\label{def:boundarychannel}
+A boundary channel is a physical interface between a substrate and a downstream system. During a coordination episode of duration $T$, the channel transmits a message $M$ with $\I(X;M) \leq \C T$, where $\C$ is the channel capacity in bits per unit time. The number of \emph{reliably distinguishable} messages a noisy channel can carry with vanishing error is bounded by $2^{\C T}$ (Shannon's noisy-channel coding theorem); reliably distinguishable messages, not raw codebook cardinality, are what enter the partition arguments below.
+\end{definition}
+
+The boundary can be a membrane, synapse, axon bundle, receptor--ligand interface, endocrine route, developmental commitment point, germline transition, or behavioral interface. What matters is that the channel from one dynamical regime to another is capacity-limited relative to the source substrate.
+
+\begin{definition}[Slow mode and trajectory coordinate]
+\label{def:slowmode}
+A slow mode is a slowly varying collective variable $W_t$ whose coherence time $\tau_W$ is long relative to the local coordination episode. Its \emph{trajectory coordinate} $\phi_t$ is a coarse position along the slow trajectory: cyclic phase for circadian or oscillatory modes; ordered stage for development; lineage position for generational sequence. The substrate is entrained when $\I(X_t;\phi_t)>0$ over the task-relevant range.
+\end{definition}
+
+\begin{definition}[Coordination task]
+A coordination task is specified by a substrate state $X$, a downstream response $A \in \A$, and a viability or coordination loss $\loss : \X \times \A \to \R_{\geq 0}$. The downstream system succeeds when it chooses responses with low expected loss.
+\end{definition}
+
+\begin{definition}[Fiber coherence]
+\label{def:fiber}
+Let $\loss^\star(x)=\inf_{a\in\A}\loss(x,a)$. A subset $F\subseteq\X$ is \emph{$\eps$-coherent under response $a$} when $\loss(x,a)-\loss^\star(x)\leq\eps$ for every $x\in F$, i.e.\ the single response $a$ is near-optimal across the whole fiber. Pairwise compatibility (two states sharing some near-optimal response) is symmetric and reflexive but not transitive; the relevant biological object is fiber coherence under a \emph{single} shared response, which is strictly stronger.
+\end{definition}
+
+\begin{definition}[Boundary protocol]
+A boundary protocol consists of an encoder $\pi:\X\to\M$ and decoder or response map $\delta:\M\to\A$, with expected loss $L(\pi,\delta) = \E[\loss(X,\delta(\pi(X)))]$. Throughout, $\M$ denotes the reliably distinguishable message set at the boundary (cf.\ Definition~\ref{def:boundarychannel}), and the pointwise-oracle expected loss is $L^\star = \E[\loss^\star(X)]$ where $\loss^\star(x) = \inf_{a\in\A}\loss(x,a)$. The expected regret of a protocol is $L(\pi,\delta) - L^\star \geq 0$.
+\end{definition}
+
+\paragraph{Stochastic encoders.} The encoder $\pi$ is written as a deterministic function for clarity. The analysis carries through for stochastic encoders by replacing the fiber $\pi^{-1}(m)$ with the high-probability decision region $\{x:P(M=m\mid X=x)\geq 1-\rho\}$ for a chosen reliability $\rho$, and reading the coherence condition conditionally on the received message. Channel noise enters through the reliable-codebook bound of Definition 2; the structural results below apply to whichever portion of the substrate the boundary distinguishes reliably.
+
+\begin{definition}[Biological code]
+A boundary protocol $(\pi,\delta)$ is a biological code when (i) $\pi$ maps high-dimensional substrate states into a finite or effectively finite alphabet $\M$ at the boundary; (ii) the same message classes recur across episodes; (iii) a downstream mechanism implements $\delta$, so messages change the receiver's dynamics or action; and (iv) selection, learning, development, or homeostasis stabilizes the mapping because it reduces coordination loss.
+\end{definition}
+
+\begin{definition}[Code--context system]
+A code--context system $(M_t, C_t)$, with boundary message $M_t=\pi(X_t)$ and receiver context $C_t$, is anticipatory when the pair preserves information about a slow-mode trajectory coordinate $\phi_t$ that constrains future task variables. The information may reside in the message, in the receiver's entrained context, or in a combination of the two. When $C_t$ is constant or independent of $\phi_t$, the definition reduces to the message-only case.
+\end{definition}
+
+This excludes arbitrary classifications imposed by an external observer: a taxonomy is not a biological code unless the classified system itself uses the partition to coordinate action across a boundary. It also excludes continuous-coupling regimes where no finite alphabet is needed because the channel preserves the relevant dynamics directly.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/fig1_boundary_code_schematic.pdf}
+\caption{Boundary-code formation. A high-dimensional substrate cannot transmit its full state through a finite boundary channel, so repeated viability pressure selects reusable fibers of a projection $M=\pi(X)$. A slow-mode trajectory coordinate $\phi$ can condition the partition and the decoder, turning a compressed boundary message into an anticipatory code.}
+\label{fig:boundary-code}
+\end{figure}
+
+\section{The boundary-code principle}
+\label{sec:theorem}
+
+\subsection{Projection insufficiency}
+
+\begin{lemma}[Projection insufficiency]
+\label{lem:projection}
+Let $Z=g(X)$ be the task-relevant variable for a coordination task with substrate distribution $P_X$, and let $d_Z$ be the distortion induced on $Z$ by the coordination loss. If the rate-distortion function $R_Z(D^\star)$ for $Z$ at expected distortion $D^\star$ exceeds the boundary budget $\C T$, then no boundary channel of capacity $\C$ over duration $T$ can support coordination at expected distortion no greater than $D^\star$.
+\end{lemma}
+
+\begin{proof}
+By the converse of rate-distortion theory, any representation of $Z$ achieving expected distortion no greater than $D^\star$ requires rate at least $R_Z(D^\star)$ \citep{coverthomas2006}; the boundary channel supplies at most $\C T$ bits.
+\end{proof}
+
+If the substrate's task-relevant state exceeds boundary capacity, direct state sharing is impossible. The system must either fail, increase capacity, change the task, or compress.
+
+\subsection{Non-recoverability}
+
+\begin{lemma}[Non-recoverability after projection]
+\label{lem:nonrecoverability}
+For any deterministic or stochastic downstream computation $Y=f(M)$ and any variable $U$ inducing the Markov chain $U \to X \to M \to Y$, the data-processing inequality gives
+\[
+\I(U;Y) \leq \I(U;M).
+\]
+Distinctions in $U$ that the projection has discarded cannot be recovered downstream.
+\end{lemma}
+
+\begin{proof}
+Direct application of the data-processing inequality \citep{coverthomas2006}.
+\end{proof}
+
+The downstream system can sample or reconstruct likely substrate states from the message, but it cannot recover the actual distinctions erased by the projection. Code formation must therefore act on the projection itself.
+
+\subsection{Stable partitions}
+
+\begin{proposition}[Fiber coherence from low expected regret]
+\label{prop:partition}
+For a finite boundary protocol $(\pi,\delta)$, $\pi$ induces a finite partition of $\X$ into message fibers $\pi^{-1}(m)$. If the protocol achieves expected regret at most $\eps$, then for every $\eta\in(0,1]$ there is an exception set $E_\eta$ of probability at most $\eta$ such that for every $x\notin E_\eta$ the regret under the assigned response $\delta(\pi(x))$ is at most $\eps/\eta$. Restricted to $\X\setminus E_\eta$, every occupied fiber is therefore $\eps/\eta$-coherent under its assigned response.
+\end{proposition}
+
+\begin{proof}
+Let $r(x)=\loss(x,\delta(\pi(x)))-\loss^\star(x)\geq 0$. By assumption $\E[r(X)]\leq\eps$, so by Markov's inequality $P\{r(X)>\eps/\eta\}\leq\eta$. Set $E_\eta=\{x:r(x)>\eps/\eta\}$.
+\end{proof}
+
+A useful codeword is not an arbitrary bin: it is a fiber whose assigned response is near-optimal across almost all of its mass.
+
+\begin{proposition}[Boundary-code structure of retained low-loss protocols]
+\label{prop:boundarycode}
+Consider a recurrent coordination problem between a high-dimensional substrate $X$ and a downstream system across a boundary channel of capacity $\C$. Assume:
+\begin{enumerate}
+\item the task-relevant information in $X$ exceeds the boundary budget for direct state transmission;
+\item coordination episodes recur under a stationary or slowly varying distribution $P_X$;
+\item boundary protocols vary by mutation, learning, plasticity, development, or selection;
+\item protocol variants with lower expected loss are preferentially retained;
+\item the channel alphabet is finite or effectively finite over each coordination episode.
+\end{enumerate}
+Then any retained low-loss protocol takes the form of a finite partition of $\X$ whose occupied fibers, away from a small exception set, are coherent under their assigned responses (Definition~\ref{def:fiber}). If the partition is reused across episodes and interpreted by downstream dynamics, the protocol is a biological code. This is a structural characterization of low-loss retained protocols; an explicit alternating-improvement dynamics whose limit points realize this structure is given in Section~\ref{sec:convergence}.
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{lem:projection}, direct transmission of the task-relevant substrate state is impossible. Any successful protocol must therefore compress $X$ into messages $M$ whose cardinality or mutual information is bounded by the channel; such an encoder $\pi$ induces a finite partition of $\X$ into fibers. By Lemma~\ref{lem:nonrecoverability}, distinctions discarded by $\pi$ cannot be recovered downstream, so selection on coordination success can only improve performance by changing the partition, the decoder, the channel, or the substrate distribution. Under a fixed boundary and recurrent task distribution, a retained low-loss protocol cannot group high-probability incompatible states into a common fiber, since this forces the assigned response to be far from optimal for one or both. Proposition~\ref{prop:partition} then implies that, away from a small exception set, every occupied fiber is coherent under its assigned response. Recurrence makes the partition reusable; downstream response implements interpretation; preferential retention supplies viability coupling.
+\end{proof}
+
+The proposition does not say that every retained protocol is globally optimal. Biological evolution and learning find local optima, path-dependent conventions, and historically frozen mappings. The claim is that whatever low-loss mapping is retained at such a boundary has the structure of a finite action-relevant partition.
+
+\begin{corollary}[Code cardinality]
+\label{cor:cardinality}
+$\I(X;M)\leq \C T$. In the noiseless case, $|\M|\leq 2^{\C T}$. With noise, separation margins and error-control overhead reduce the usable alphabet below the noiseless count.
+\end{corollary}
+
+\begin{corollary}[No-code regime]
+\label{cor:nocode}
+If the boundary channel can transmit the task-relevant substrate dynamics at the required distortion, continuous coupling can solve the coordination problem without a finite code. Codes are expected at boundaries where direct coupling fails, not inside regimes of preserved timing and state access.
+\end{corollary}
+
+\begin{corollary}[Shadow complexity]
+\label{cor:shadow}
+The complexity discarded by a code remains in the fibers as within-codeword variation. Higher-bandwidth observers may resolve structure invisible at the code layer.
+\end{corollary}
+
+\subsection{Convergence by alternating improvement}
+\label{sec:convergence}
+
+Proposition~\ref{prop:boundarycode} characterizes the form of retained low-loss protocols but does not by itself describe a dynamics that reaches them. The following two results give an explicit alternating-improvement dynamics --- finite-bandwidth viability optimization read as a generalized Lloyd--Bayes iteration --- whose risk decreases monotonically and whose limit points are partition-shaped.
+
+\begin{proposition}[Voronoi--Bayes coordinatewise optimality]
+\label{prop:voronoibayes}
+Let $\M$ be a finite alphabet, $\A$ a compact action set, $\ell$ a continuous viability loss, and $P_X$ a substrate distribution.
+\begin{enumerate}
+\item For any decoder $\delta:\M\to\A$, the encoder minimizing $L(\pi,\delta)=\E[\ell(X,\delta(\pi(X)))]$ is the loss-Voronoi assignment
+\[
+\pi^\star(x) \in \arg\min_{m\in\M}\,\ell(x,\delta(m)),
+\]
+under arbitrary deterministic tie-breaking on the tie set $\{x:|\arg\min_m\ell(x,\delta(m))|>1\}$, and unique when that tie set has $P_X$-measure zero.
+\item For any encoder $\pi$ inducing cells $F_m=\pi^{-1}(m)$ of positive probability, the decoder minimizing $L(\pi,\delta)$ is the Bayes action per cell,
+\[
+\delta^\star(m) \in \arg\min_{a\in\A}\,\E\!\left[\ell(X,a)\,\big|\,X\in F_m\right].
+\]
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Pointwise minimization. For (1), and any $\delta$,
+\[
+L(\pi,\delta)=\E[\ell(X,\delta(\pi(X)))]\;\geq\;\E[\min_m \ell(X,\delta(m))],
+\]
+with equality when $\pi$ assigns each $x$ to a minimizer; the minimizer is unique off the tie set. For (2), on each cell $F_m$, $\E[\ell(X,\delta(m))\mid X\in F_m]$ is minimized by the Bayes action by definition.
+\end{proof}
+
+\begin{proposition}[Lloyd--Bayes monotone improvement]
+\label{prop:lloydbayes}
+Fix a deterministic tie-breaking rule for the encoder step, a fixed Bayes-action selector for the decoder step, and a fixed empty-cell handling rule. Define the alternating Lloyd--Bayes update: at each step, hold one of $(\pi,\delta)$ fixed and replace the other by its risk-minimizer per Proposition~\ref{prop:voronoibayes}. Then the expected risk $L^{(k)}=L(\pi^{(k)},\delta^{(k)})$ is non-increasing in $k$. Since $L^{(k)}\geq 0$, the risk sequence converges. For finite or discretized $P_X$, under the standard no-cycling/tie-handling convention for generalized Lloyd iteration, the iteration reaches a coordinatewise stationary protocol --- one satisfying both fixed-point conditions of Proposition~\ref{prop:voronoibayes} --- in finitely many steps \citep{linde1980,gray1998}.
+\end{proposition}
+
+\begin{proof}
+Each Lloyd--Bayes step replaces one factor of $(\pi,\delta)$ by a coordinatewise risk-minimizer (Proposition~\ref{prop:voronoibayes}), so $L^{(k+1)}\leq L^{(k)}$. The monotone bounded sequence $L^{(k)}$ converges. For finite/discretized $P_X$ under the no-cycling/tie-handling convention, the trajectory lies in a finite set of partition--decoder pairs and the iteration enters a coordinatewise stationary configuration in finitely many steps.
+\end{proof}
+
+We do \emph{not} claim convergence of $(\pi^{(k)},\delta^{(k)})$ for continuous $P_X$; that requires further regularity assumptions and is treated in the quantization-theory literature \citep{linde1980,gray1998,sabin1986}.
+
+\begin{corollary}[Idealized code-formation mechanism]
+\label{cor:codeformation}
+Finite-bandwidth viability optimization has partition-shaped fixed points. When biological selection, learning, plasticity, or development can be approximated by an alternating improvement dynamic on encoder and decoder --- selection or plasticity refining within-fiber action choice given the current partition; mutation, learning, or developmental variation refining the partition given the current action repertoire --- the resulting protocol is expected to approach such a fixed point. Coherence of the reached protocol's fibers in the sense of Definition~\ref{def:fiber} is a separate claim, supplied by Proposition~\ref{prop:partition} from the achieved expected regret: the lower the rate-distortion floor of Lemma~\ref{lem:projection} permits the risk to fall, the tighter the resulting fiber coherence.
+\end{corollary}
+
+This is an idealized mechanism, not the claim that biology runs Lloyd--Bayes literally. The point is that Proposition~\ref{prop:boundarycode}'s structural characterization is realized by a standard alternating-improvement dynamics: under finite-bandwidth viability optimization, codes are not just the form of retained low-loss protocols; they are the fixed points of an explicit improvement procedure, reached by exact alternating updates in the finite/discretized case, up to local optima and tie-handling. The selection-driven emergence in Section~\ref{sec:emergence} is approximately such a dynamics with mutation noise as the search operator.
+
+\subsection{Forced nontrivial codes}
+\label{sec:forced}
+
+Existence and reachability (Propositions~\ref{prop:voronoibayes}--\ref{prop:lloydbayes}) say that partition stationary points form, but do not by themselves say the partition must be nontrivial: a degenerate one-codeword partition is also a fixed point. The next result fills that gap. When the substrate contains mutually action-incompatible regimes, any low-regret protocol is forced to allocate distinct codewords to them, or pay an explicit regret floor.
+
+\begin{definition}[$\gamma$-bad action; pointwise $\gamma$-action-incompatibility]
+\label{def:incompatible}
+An action $a \in \A$ is \emph{$\gamma$-bad on a region} $S \subseteq \X$ when $\ell(x,a) - \ell^\star(x) \geq \gamma$ for $P_X$-almost every $x \in S$. Two regions $S, S'$ of positive $P_X$-mass are \emph{pointwise $\gamma$-action-incompatible} when every action $a \in \A$ is $\gamma$-bad on at least one of $S, S'$. A family $\{S_1, \ldots, S_r\}$ is \emph{mutually pointwise $\gamma$-action-incompatible} when every pair is.
+\end{definition}
+
+Pointwise incompatibility is a sufficient condition for the result below, not a necessary one --- pairs of regions can fail to satisfy it and codes can still form --- but it is the cleanest setting in which forced separation can be proved.
+
+\begin{proposition}[Forced nontrivial code]
+\label{prop:forced}
+Let $S_1, \ldots, S_r$ be mutually pointwise $\gamma$-action-incompatible regions with $\min_i P_X(S_i) \geq p > 0$, and let $(\pi, \delta)$ be any boundary protocol.
+\begin{enumerate}
+\item If the expected regret satisfies $L(\pi,\delta) - L^\star < \gamma p$, then $\pi$ uses at least $r$ distinct messages on the support of $\bigcup_i S_i$, and the boundary alphabet must satisfy $|\M| \geq r$ (equivalently, at least $\log_2 r$ reliably distinguishable messages).
+\item Conversely, if the boundary alphabet has fewer than $r$ reliably distinguishable messages, the expected regret is bounded below by $\gamma p$: at least one action-incompatible regime must alias, and the system pays the corresponding viability cost.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+For each $i$, define the set of messages whose decoded action is \emph{not} $\gamma$-bad on $S_i$,
+\[
+G_i \;=\; \{\,m \in \M : \delta(m) \text{ is not } \gamma\text{-bad on } S_i\,\}.
+\]
+By pointwise $\gamma$-action-incompatibility, every action is $\gamma$-bad on at least one of any two regions, so for $i \neq j$ no action can fail to be $\gamma$-bad on both. Hence $G_i \cap G_j = \emptyset$.
+
+For each $i$, the contribution to expected regret from states in $S_i$ assigned to messages outside $G_i$ is bounded below pointwise by $\gamma$:
+\[
+L(\pi,\delta) - L^\star \;\geq\; \E\!\big[(\ell(X,\delta(\pi(X))) - \ell^\star(X))\,\mathbf{1}_{X\in S_i,\;\pi(X)\notin G_i}\big] \;\geq\; \gamma \cdot P\!\big(X\in S_i,\,\pi(X)\notin G_i\big).
+\]
+Rearranging,
+\[
+P\!\big(X\in S_i,\,\pi(X)\in G_i\big) \;\geq\; P_X(S_i) - \frac{L(\pi,\delta) - L^\star}{\gamma}.
+\]
+
+\emph{Part (1).} If $L(\pi,\delta) - L^\star < \gamma p$, the right-hand side is strictly positive ($> P_X(S_i) - p \geq 0$). So for each $i$ there is at least one message in $G_i$ used by $\pi$ on positive mass of $S_i$. By disjointness of the $G_i$, the chosen messages are pairwise distinct, giving at least $r$ distinct used messages and hence $|\M| \geq r$.
+
+\emph{Part (2).} If fewer than $r$ messages are reliably distinguishable, the disjoint sets $G_1,\ldots,G_r$ cannot all be nonempty: at least one $G_i$ must be empty. For that $S_i$, every used message has decoded action $\gamma$-bad on $S_i$, so $\ell(x,\delta(\pi(x))) - \ell^\star(x) \geq \gamma$ for $P_X$-a.e.\ $x \in S_i$, giving $L(\pi,\delta) - L^\star \geq \gamma P_X(S_i) \geq \gamma p$.
+\end{proof}
+
+The conclusion requires no decisiveness or majority condition on the encoder. It uses only the Markov-style fact that low expected regret forces most of each region's mass to its good-message set, and the disjointness of those sets follows from incompatibility alone.
+
+\paragraph{Combined claim.} Propositions~\ref{prop:boundarycode}, \ref{prop:lloydbayes}, and \ref{prop:forced} together give the substantive code-formation result of this paper:
+\begin{itemize}
+\setlength\itemsep{0pt}
+\item finite-bandwidth viability optimization has partition fixed points (Proposition~\ref{prop:boundarycode});
+\item alternating Lloyd--Bayes improvement reaches such fixed points in the finite/discretized case, up to local optima and tie-handling (Proposition~\ref{prop:lloydbayes});
+\item when the substrate contains $r$ mutually action-incompatible regimes of mass $\geq p$, any protocol with regret below $\gamma p$ is forced to allocate distinct codewords to them, and below the corresponding capacity the regret floor $\gamma p$ acts (Proposition~\ref{prop:forced}).
+\end{itemize}
+Codes form, and under the stated conditions they are nontrivial.
+
+\subsection{Anticipation by synchronization}
+
+\begin{proposition}[Trajectory-preserving codes carry predictive information]
+\label{prop:anticipation}
+Let the trajectory coordinate $\phi_t$ of a slow mode drive both substrate and future. Assume the directed graphical model
+\[
+\phi_t \to X_t \to M_t,\qquad \phi_t \to F_{t+\Delta},\qquad 0<\Delta<\tau_W,
+\]
+with $M_t=\pi(X_t)$ and $F_{t+\Delta}\perp X_t,M_t\mid\phi_t$. Let $Q=q(\phi_t)$ be a finite trajectory partition that is a sufficient statistic for predicting the future variable from $\phi_t$, so that
+\[
+M_t \perp F_{t+\Delta}\mid Q.
+\]
+($Q$ is not generated from $M_t$; it is an external summary of $\phi_t$, and the conditional independence captures sufficiency.) Then
+\[
+\I(M_t;F_{t+\Delta}) \;\geq\; \I(M_t;Q) - H(Q\mid F_{t+\Delta}).
+\]
+The right-hand side is positive whenever the message resolves $Q$ better than the future does. In the deterministic case $F_{t+\Delta}=h(Q)$ with $h$ injective on the support of $Q$, $H(Q\mid F_{t+\Delta})=0$ and the bound becomes equality, $\I(M_t;F_{t+\Delta})=\I(M_t;Q)$.
+\end{proposition}
+
+\begin{proof}
+The conditional independences $F_{t+\Delta}\perp X_t\mid\phi_t$ and $F_{t+\Delta}\perp\phi_t\mid Q$ imply $F_{t+\Delta}\perp M_t\mid Q$, so $\I(M_t;F_{t+\Delta}\mid Q)=0$. The chain rule then gives $\I(M_t;F_{t+\Delta})=\I(M_t;Q)-\I(M_t;Q\mid F_{t+\Delta})\geq\I(M_t;Q)-H(Q\mid F_{t+\Delta})$. When $F_{t+\Delta}=h(Q)$ is deterministic and $h$ is injective on the support of $Q$, $Q$ is recoverable from $F_{t+\Delta}$, so $\I(M_t;Q\mid F_{t+\Delta})=0$ and the bound becomes equality.
+\end{proof}
+
+The trajectory coordinate is the common driver of substrate and future, not a child of substrate. Boundary messages inherit predictive content because the encoder is sensitive to substrate variation that is itself driven by the slow mode.
+
+\begin{corollary}[Anticipation by synchronization]
+\label{cor:syncanticipation}
+A substrate entrained to a slow mode can behave anticipatorily without explicitly representing future microstates. The anticipatory horizon is bounded by the coherence time of the longest task-relevant slow mode preserved by the code.
+\end{corollary}
+
+This is the bridge between code formation and biological intelligence. Fast local dynamics supply flexibility; slow-mode synchronization supplies horizon. Circadian systems prepare metabolism before dawn not because they simulate sunrise from first principles each night, but because the organism is entrained to the day--night cycle.
+
+\subsection{Latent context: code--context as the operational unit}
+\label{sec:latent}
+
+Proposition~\ref{prop:anticipation} locates anticipatory information in the boundary message itself. In biology the predictive content often resides instead in the receiver's entrained internal state: the same hormone pulse means different things at different circadian phases, the same morphogen at different developmental stages, the same spike burst at different oscillatory phases, the same antigen signal during repair, infection, or prior exposure.
+
+\begin{proposition}[Latent anticipation through context]
+\label{prop:latent}
+Suppose the receiver carries a phase-conditioned context $C_t=c(\phi_t)$ and acts via $A_t=\delta(M_t,C_t)$. Under the directed model of Proposition~\ref{prop:anticipation},
+\[
+\I((M_t,C_t);F_{t+\Delta}) \;\geq\; \I(C_t;F_{t+\Delta}),
+\]
+which is positive whenever $C_t$ preserves a class of $\phi_t$ distinguishing the future-conditional distribution. The receiver therefore has access to anticipatory information through context alone, even in the limit $\I(M_t;\phi_t)=0$.
+\end{proposition}
+
+\begin{proof}
+The chain rule gives $\I((M_t,C_t);F_{t+\Delta})=\I(C_t;F_{t+\Delta})+\I(M_t;F_{t+\Delta}\mid C_t)\geq\I(C_t;F_{t+\Delta})$. Applying Proposition~\ref{prop:anticipation} with $C_t$ in place of $M_t$ gives $\I(C_t;F_{t+\Delta})>0$ whenever $C_t$ preserves a sufficient $Q$-class.
+\end{proof}
+
+Whether the available anticipation is realized in action is a separate question about $\delta$: by the data-processing inequality $\I(A_t;F_{t+\Delta})\leq\I((M_t,C_t);F_{t+\Delta})$, with equality when $\delta$ maps future-relevant context classes to distinguishable actions. Proposition~\ref{prop:latent} bounds the information available to the receiver; realization in $A_t$ depends on the decoder using it. The effective codeword is often the pair $(M_t,C_t)$, not $M_t$ alone, so an external observer reading only the boundary message may underestimate predictive content correspondingly.
+
+\begin{corollary}[Observer-hidden anticipatory context]
+\label{cor:hidden}
+For any observer-accessible readout $O_t=r(M_t,C_t)$,
+\[
+\I((M_t,C_t);F_{t+\Delta}) \;\geq\; \I(O_t;F_{t+\Delta}),
+\]
+with strict inequality possible whenever $r$ discards future-relevant context. Null measurements of predictive content in transmitted codewords are therefore weak evidence against anticipation. The relevant test is whether \emph{behavior} retains its future-conditional structure under interventions on slow modes, not whether the boundary signal visibly carries phase.
+\end{corollary}
+
+The receiver has access to $C_t$ \emph{by being} $C_t$; the observer accesses it only through a measurement channel of finite capacity. This is the same observer--substrate asymmetry that drives the falsifiability and timing-inaccessibility results in the prior papers \citep{todd2025falsifiability,todd2025maxwell}.
+
+\paragraph{Slow modes as changes in meaning.} Over short windows, a slow mode looks like a constant background and contributes little to instantaneous variation. Its causal force becomes visible at \emph{gating events} --- phase transitions, competence windows, threshold crossings --- at which $C_t$ moves into a regime where the same boundary message is interpreted differently:
+\begin{itemize}
+\item Local hormonal and metabolic signals look similar moment to moment; their consequences flip at sleep--wake, feeding--fasting, and immune-tone gates.
+\item Cells can carry similar molecular markers across a stage boundary; the same morphogen is permissive before commitment and instructive after.
+\item A spike or burst can look locally similar; its postsynaptic and behavioral impact depends on theta/beta/gamma phase gates.
+\item The same antigen presentation is interpreted differently across infection stage, repair stage, prior priming, exhaustion, or tolerance.
+\item A gesture or phrase can be lexically stable; its meaning shifts at relational, ritual, or commitment boundaries.
+\end{itemize}
+Strong biological codes preserve access to slow-mode context, either by encoding it in the message or by coupling the decoder to an entrained context that changes how the same message is interpreted.
+
+\begin{proposition}[Slow-mode boundary-code principle]
+\label{prop:longwave}
+Consider a recurrent coordination problem in which future loss depends on a coherent slow mode and (with positive probability under $P_X$) different trajectory classes of that mode admit no shared near-optimal response across the future horizon. Then retained low-loss code--context systems must preserve those distinctions whose merger would exceed the tolerated regret, subject to boundary capacity. The required slow-trajectory information is carried by the message, by the receiver's entrained context, or by a combination of the two.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:boundarycode}, retained low-loss codes have fibers approximately coherent under their assigned responses. The added assumption says that with positive probability two substrate states from distinct trajectory classes cannot share a single near-optimal response over the future horizon; merging them into a common fiber therefore incurs nonzero expected regret, which is incompatible with retention. The system must distinguish the trajectory classes at decision time. Propositions~\ref{prop:anticipation} and \ref{prop:latent} establish two routes for doing so: trajectory-preserving messages and phase-conditioned context, respectively.
+\end{proof}
+
+\subsection{Worked example: one-bit slow-mode code}
+
+A minimal numerical example shows what the slow-mode claim adds beyond generic compression. Let
+\[
+X_t=(\cos\phi_t,\sin\phi_t)+\eta_t,
+\]
+with $\eta_t$ Gaussian noise and $\phi_t$ a coherent slow phase. The boundary transmits one bit, and the loss depends on a future binary task variable $F_{t+\Delta}=\mathbf{1}\{\cos(\phi_t+\Delta)>0\}$. A phase-blind present-axis code $M=\mathbf{1}\{X_1>0\}$ has one bit but preserves the wrong distinction at any nontrivial $\Delta$. A search over one-bit linear partitions $M_\theta=\mathbf{1}\{\cos\theta\,X_1+\sin\theta\,X_2>0\}$ finds the loss-minimizing projection. Figure~\ref{fig:phase-demo} reports the result: at $\Delta=\pi/2$ the present-axis cut is at chance accuracy ($0.50$), the best one-bit cut reaches $0.88$, and the oracle reaches $1.00$. Sweeping $\Delta$ over $[0,\pi]$, the best one-bit accuracy stays near $0.88$ across the whole sweep while the present-axis accuracy varies sinusoidally; the recovered projection-vector angle tracks the theoretical optimum $-\Delta$ throughout. Under a one-bit boundary, the useful codeword is the partition that preserves the future-relevant slow-mode class, not the partition that best labels an arbitrary present coordinate.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/fig2_phase_partition_demo.pdf}
+\caption{One-bit slow-mode code. Substrate $X_t=(\cos\phi_t,\sin\phi_t)+\eta_t$ with $\sigma=0.42$ and $n=120{,}000$. (a) Substrate at $\Delta=\pi/2$ with present-axis cut (dashed) and best one-bit cut (solid). (b) Accuracy and mutual information at $\Delta=\pi/2$ for random, present-axis, best one-bit, and oracle codes. (c) Sweep over $\Delta\in[0,\pi]$: best one-bit accuracy stays high; present-axis accuracy varies sinusoidally; right axis shows the angular error of the recovered projection relative to optimum. Reproducible code in \texttt{simulations/generate\_figures.py}.}
+\label{fig:phase-demo}
+\end{figure}
+
+\section{Selection-driven emergence}
+\label{sec:emergence}
+
+Section~\ref{sec:convergence} gives an idealized alternating-improvement mechanism for which partition-shaped fixed points exist and stationary risk is reached in the finite/discretized case. Real biological selection, learning, and plasticity are not literal Lloyd--Bayes iteration. Two simulations therefore ask the empirical question that Proposition~\ref{prop:lloydbayes} cannot directly answer: do analogous selection-style dynamics, with mutation noise as the search operator and a population rather than a single coordinate-descent trajectory, find the predicted partitions in continuous high-dimensional substrates?
+
+\subsection{Selection finds the partition}
+
+The substrate is six-dimensional: the first two coordinates carry the slow-mode signal $(\cos\phi_t,\sin\phi_t)+\eta_t$, the remaining four are Gaussian distractor noise the encoder must learn to ignore. The boundary carries two bits ($K=4$ codewords). The future task is the four-class label of $\phi_t+\pi/2$. An encoder $\pi_\theta$ chooses a codeword as the argmax of $K$ linear projections of $X$; a decoder $\delta\in\{0,\ldots,K-1\}^K$ is a lookup table from codeword to predicted class. A population of $64$ pairs evolves for $250$ generations under top-half selection on future-class accuracy. A drift control runs the same mutation operator with parents drawn uniformly at random.
+
+A random individual at generation $0$ produces a speckled partition near chance ($1/4$). After $250$ generations of selection, the best individual carries a clean four-quadrant partition aligned with the slow-mode-determined future classes; the drift control wanders without converging on the slow-mode-relevant subspace. Selection drives accuracy from near-chance to roughly $0.75$ within the first $50$ generations and stabilizes there; the drift control fluctuates around $0.4$. The channel capacity and the action set are fixed by construction, but the substrate partition and the codeword-to-action mapping are not pre-specified; selection finds them.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/fig3_emergence_demo.pdf}
+\caption{Selection-driven boundary-code emergence. Substrate $X_t\in\R^6$ with slow-mode signal in two coordinates ($\sigma=0.45$) and Gaussian distractor noise in four ($\sigma=0.7$). $K=4$ codewords, population $64$, $250$ generations, top-half selection. (a) Generation $0$ random individual. (b) Best individual at generation $250$ under selection. (c) Best individual under drift control. (d) Future-class accuracy over generations; chance ($1/4$) and oracle ($1$) baselines dotted. Reproducible code in \texttt{simulations/emergence\_demo.py}. Robustness across nominal substrate dimension $N\in\{64,128,256,512\}$ (hidden nonlinear embedding of a $10$-dimensional latent slow trajectory) is reported in \texttt{simulations/first\_code\_complex\_sweep.py} and \texttt{figures/sweep\_N\_scaling.txt}: selection achieves normalized viability $0.66$--$0.78$ across the full $N$ range, robustly above the memoryless random-population baseline ($0.20$--$0.29$).}
+\label{fig:emergence-demo}
+\end{figure}
+
+\subsection{Channel capacity shapes the alphabet}
+
+The boundary-code principle predicts that partition structure is forced by the channel bottleneck rather than imposed by the substrate or task. A channel-capacity sweep tests this directly: capacity $K$ is varied at fixed substrate dimension $N=128$ and task complexity $R=8$ response programs, with five seeds per cell. Selection viability rises from $K=2$ ($0.61$) through a plateau at $K=8$ ($0.74$) and $K=16$ ($0.75$, with overlapping CIs), then declines at $K=32$ ($0.71$). The memoryless random-population baseline (which redraws genotypes each generation rather than retaining the best of all sampled; see code) declines monotonically with $K$: more codewords give random configurations more ways to fail.
+
+The most direct evidence for the bottleneck mechanism is in the codeword-usage entropy (Figure~\ref{fig:capacity}c). The random-population baseline uses all codewords roughly uniformly at every $K$ (entropy $\approx 0.9$ of the $\log_2 K$ maximum). Selection drops its entropy as $K$ grows: $0.99$ at $K=2$ but $0.69$ at $K=32$, equivalent to roughly $2^{3.5}\approx 11$ effective codewords out of $32$. When channel capacity exceeds task complexity, retained low-loss protocols use the excess unevenly: effective support sits well below full $K$ but does not collapse to the task alphabet $R=8$. The bottleneck shaping the partition is therefore not just the channel cardinality; selection's preference for fewer-but-coherent fibers leaves further headroom unused.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/sweep_K_capacity.pdf}
+\caption{Channel-capacity sweep at fixed $N=128$ substrate dimension and $R=8$ response programs. Five seeds per $(K, \text{condition})$ cell; mean and $95\%$ CI shown. Vertical dotted line at $K=R=8$. (a) Normalized viability: selection plateaus around $K=8$--$16$ then declines at $K=32$. (b) Oracle-action accuracy with chance baseline ($1/R=0.125$, dotted). (c) Codeword-usage entropy normalized by $\log_2 K$: selection drops its entropy as $K$ grows, indicating that retained low-loss protocols leave excess capacity largely unused. The control labelled ``random search'' is a memoryless random-population baseline (genotypes redrawn each generation), not a best-of-all matched random search. Reproducible code in \texttt{simulations/first\_code\_complex\_capacity\_sweep.py}.}
+\label{fig:capacity}
+\end{figure}
+
+A bulk-channel ablation (decoder receives codeword, low-dimensional bulk context, both, or both with bulk shuffled at evaluation) and a stochastic-resonance demonstration with coupled Kuramoto networks support the latent-context route of Proposition~\ref{prop:latent}: when bulk--environment synchronization is destroyed at evaluation while codeword identity is preserved, the synchronization-dependent component of viability collapses, while a code-only architecture is unaffected. Reproducible code is in \texttt{simulations/code\_vs\_bulk\_ablation.py} and \texttt{simulations/stochastic\_resonance\_sweep.py}; full results in the corresponding \texttt{.txt} files.
+
+\section{Mechanism}
+\label{sec:mechanism}
+
+The formal result gives the abstract form of code formation; biology implements it with thresholds, attractors, adapters, and interpreters. Three concrete mechanisms illustrate how viability pressure reshapes a partition.
+
+\paragraph{Synaptic plasticity.} In Hebbian and reinforcement-modulated plasticity, distinct upstream microstates that demand the same action collapse onto a shared response, while microstates that demand different actions are pulled apart. Spike-pattern codes, place-cell codes, and motor-cortical decision codes can be read in this light \citep{buzsaki2004,fries2015,panzeri2010}.
+
+\paragraph{Affinity maturation.} B-cell affinity maturation iteratively mutates antibody-binding regions and selects clones whose recognition aligns with downstream protective response \citep{janeway2001,davis1998}. Antigens with shared protective consequences collapse onto cross-reactive fibers; antigens whose downstream consequences diverge are split.
+
+\paragraph{Morphogen-threshold sharpening.} Cell fate commitment converts continuous morphogen concentrations into discrete cell types via gene-regulatory bistability. Selection on robustness sharpens thresholds against noise and aligns them with action-relevant regimes \citep{pezzulo2016,levin2023,levin2025multiscale}.
+
+In each case, three ingredients coincide: variation in encoder or decoder, a viability signal sensitive to within-fiber action mismatch, and a feedback path that reshapes the partition. Code formation is therefore co-adaptation of encoder and decoder at a boundary, not the appearance of a naked symbol list \citep{pattee2001,barbieri2003,barbieri2015}. The codeword does not contain the downstream dynamics; it selects or biases them. A side-effect with biological importance is that an internal update depending on $X$ only through $M$ is insulated from within-fiber environmental variation: codes convert unbounded environmental variation into a finite set of action-relevant categories, which is the formal sense in which they stabilize organisms against perturbation \citep{maturana1980}.
+
+\section{Biological cases}
+\label{sec:cases}
+
+Table~\ref{tab:cases} fixes operational anchors for canonical biological codes. The same boundary-code logic appears across substrates with substrate-specific instantiations.
+
+\begin{table}[H]
+\centering
+\small
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\begin{tabular}{L{1.8cm}L{2.0cm}L{2.3cm}L{2.7cm}L{2.4cm}L{2.4cm}}
+\toprule
+\textbf{Case} & \textbf{Boundary} & \textbf{Message} & \textbf{Decoder} & \textbf{Slow mode} & \textbf{Failure mode} \\
+\midrule
+Genetic & germline & codon & tRNA adapter & lineage trajectory & misreading \\
+Neural (long-range) & axon, synapse & spike pattern & postsynaptic dynamics & cortical oscillation & timing aliasing \\
+Circadian / metabolic & cell--organism & molecule + phase & phase-gated expression & circadian cycle & mistiming \\
+Morpho\-genetic & cell--tissue & cell-fate label & gene-regulatory bistability & developmental stage & patterning error \\
+Immune & cell surface & MHC--peptide & T/B receptor & infection / repair phase & auto\-immunity \\
+Endocrine / quorum & circulation & hormone regime & receptor cascade & density / cycle phase & desensit\-ization \\
+Behavioral / social & body--observer & gesture, display & receiver policy & social cycle & mis\-coordination \\
+\bottomrule
+\end{tabular}
+\caption{Operational anchors for biological codes. Each row identifies the substrate boundary, the codeword as physically realized, the decoder, the slow mode (if any) supplying anticipatory horizon, and one representative partition-failure mode.}
+\label{tab:cases}
+\end{table}
+
+\paragraph{Genetic.} The framework does not derive the codon table; it explains why a finite codon--amino-acid mapping is expected at all. Generational coordination is an extreme dimensional boundary: the parent chemical system cannot transmit its full state, so it transmits a compressed reusable alphabet whose interpreter reanimates protein dynamics in the offspring \citep{crick1968,maynardsmith1995,barbieri2003}. The genetic code is anticipatory in the trajectory-coordinate sense rather than the cyclic-phase sense: it ties fast molecular events to lineage-scale slow variables. The principle also speaks to origins. Its three ingredients --- high-dimensional substrate, finite-bandwidth interface, viability pressure --- do not require a mature symbolic adapter; the decoder $\delta$ can be any physical mechanism converting a thresholded interface state into a downstream effect, including autocatalytic thresholds and gating events available in early biology.
+
+\paragraph{Neural.} Where timing and phase are directly accessible through local coupling, neural coding remains continuous. Where conduction distance, noise, and synaptic bottlenecks limit access, finite events and reusable spike patterns emerge \citep{buzsaki2004,fries2015,panzeri2010}. Spike identity alone is not the full code: phase, synchrony, and burst timing expand the boundary alphabet when the receiver can preserve them \citep{fries2005,canolty2010,lundqvist2016,miller2018working,sterling2015}. Slow oscillations gate faster local assemblies, so neural codes become anticipatory when fast events are phase-indexed to slower cycles that constrain future commitments.
+
+\paragraph{Circadian and metabolic.} The circadian clock is the cleanest case of anticipation by synchronization \citep{winfree2001,forger2017,pittendrigh1993,lowrey2004}. Local cells cannot directly observe the future day--night cycle but are entrained to an organismal clock whose phase constrains future environmental states. The codeword is not the molecule alone; it is molecule-in-phase. The same holds at shorter (feeding--fasting) and longer (seasonal) scales.
+
+\paragraph{Morphogenetic and bioelectric.} Discrete cell fates are stable partitions of the continuous developmental substrate \citep{pezzulo2016,levin2023,levin2025multiscale,hansali2025}. A bioelectric field is part of the high-dimensional substrate through which cells coordinate; cell-fate labels are boundary messages produced by that substrate. Development is anticipation by trajectory coordinate: a local cell decision is made now in relation to a body plan that does not yet exist, with the cell coupled to a morphogenetic trajectory whose slow variables constrain which local actions are appropriate.
+
+\paragraph{Immune.} The immune interface compresses the cellular substrate into finite recognitional channels --- MHC--peptide complexes, co-stimulatory markers, cytokines, checkpoint signals, tissue-context cues \citep{janeway2001,davis1998}. Autoimmunity, immune evasion, and exhaustion can be read as partition failures: distinct substrate regimes alias onto the same immune message, or the decoder becomes tuned to the wrong equivalence classes. Recognition is also stage-dependent: the same molecular signal means different things across infection stage, repair phase, or prior priming.
+
+\paragraph{Endocrine and quorum sensing.} Hormones compress tissue state into circulating signals other tissues can interpret; autoinducer concentrations compress population density and context \citep{miller2001,bassler2002}. The relevant code alphabet is the set of reliably distinguishable regimes at the boundary --- below threshold, near threshold, above threshold; pulse, sustained, oscillation --- not the mathematical continuum of possible concentrations.
+
+\paragraph{Behavioral and social.} Behavior compresses high-dimensional internal states into finite displays: posture, vocalization, gesture, language, institutional categories. Each signal class is a boundary partition: many internal states can produce the same signal because they admit a shared receiver response. Shared codes make relationships durable because they reduce the space of possible interpretations: each organism remains internally opaque, but the relation becomes predictable enough to coordinate. This section is illustrative; the formal results constrain only the boundary structure.
+
+\section{Predictions}
+\label{sec:predictions}
+
+\paragraph{Codes localize at dimensional boundaries, and channel changes reshape them.} Codes should appear where direct coupling cannot carry task-relevant substrate dynamics, and weaken where continuous coupling preserves those dynamics. The predicted gradient runs from continuous integration within tightly coupled local regimes to discrete codes across membranes, long axons, developmental commitments, immune interfaces, generations, and organismal boundaries. If a boundary gains bandwidth, its code should soften, become more graded, or be partially replaced by continuous coupling; reduced bandwidth or increased noise should produce coarser, more categorical codes.
+
+\paragraph{Codewords preserve action-relevant invariants, not microscopic similarity.} A mature code groups substrate states by downstream consequence. Molecularly different states may map to the same response if they admit the same protective action; molecularly similar states may be split if downstream consequences diverge. The correct test of a biological code is therefore not whether codeword classes are microscopically homogeneous, but whether each fiber is coherent under its assigned response (Definition~\ref{def:fiber}). Apparent context-dependence is not a nuisance variable; when future loss depends on slow trajectories, effective codes preserve the relevant trajectory class, and the same signal will have different effects at different circadian phases, developmental stages, inflammatory phases, neural oscillatory phases, or ecological seasons.
+
+\paragraph{Phase-disrupted codes lose horizon, not identity.} The framework predicts a sharp dissociation: disrupting slow-mode phase while preserving local substrate dynamics should selectively impair anticipation while leaving present-state classification largely intact. In a phase-disrupted preparation (misaligned light--dark cycle, jet-lag protocol, sleep--wake fragmentation, scrambled developmental cue order), codeword identity at the moment of measurement should remain similar to control, but performance on tasks whose loss depends on future variables should drop disproportionately. Quantitatively, $\I((M,C);F_{t+\Delta})$ should drop toward the context-free baseline $\I(M;F_{t+\Delta})$, and toward zero in the pure latent-context regime, while $\I(M;Z_t)$ for present-state task variables should remain approximately preserved. By Proposition~\ref{prop:latent}, the relevant target of disruption is often the receiver's entrained context $C_t$ rather than the boundary message itself, so a clean test attacks $C_t$ while leaving $M_t$ intact. This dissociation is not predicted by accounts that treat codes purely as instantaneous classifiers. A clear comparison would measure immune recognition accuracy on stage-matched antigen tasks under intact vs.\ scrambled circadian phase, or neural decoding of present vs.\ future behavior in the same cortical population under intact vs.\ disrupted slow oscillations.
+
+\paragraph{Anticipatory horizon scales with slow-mode coherence time.} The horizon of a code should scale with the coherence time of the longest task-relevant slow mode it preserves \citep{todd2026b_coherencetime}. A purely local chemical code coordinates immediate reactions; a circadian-anchored code anticipates day-scale transitions; a developmental code anticipates tissue-scale futures; a genetic code preserves lineage-scale constraints.
+
+\paragraph{Pathology is partition pathology.} Failures of regulation often take the form of partition errors. Too-coarse partitions produce aliasing; too-fine partitions produce fragmentation; decoder drift produces maladaptive interpretation; channel noise produces rigid defensive partitions because subtle distinctions cannot be safely transmitted. These are expected in immune disease, cancer immune evasion, developmental malformation, psychiatric rigidity, and institutional communication failures.
+
+\paragraph{Higher-bandwidth observers reveal shadow structure.} A code hides within-fiber variation from receivers limited to it; better measurement should reveal structured variation inside codeword classes (Corollary~\ref{cor:shadow}). Single-cell sequencing reveals heterogeneity inside cell-type labels; high-resolution recording reveals timing structure inside firing-rate categories; spatial proteomics reveals immune-relevant structure inside coarse antigen classes. These discoveries should be expected, not treated as anomalies.
+
+\section{Objections}
+\label{sec:objections}
+
+\paragraph{Is this just rate-distortion theory?} The formal core uses rate-distortion theory, but the biological claim is not merely rate-distortion. Standard rate-distortion theory assumes a source, distortion function, and code design problem. Biology supplies those ingredients physically: source as high-dimensional substrate, distortion as viability loss, channel as boundary, and code retention by selection, learning, plasticity, or development. The contribution is to identify biological code formation as the stable physical realization of this problem at dimensional boundaries, and to extend it across slow modes via Propositions~\ref{prop:anticipation}--\ref{prop:latent}.
+
+\paragraph{Does this solve the genetic code?} No. It solves a prior problem: why a finite symbolic mapping is expected at the generational chemistry-to-protein boundary. The exact codon table reflects historical contingencies, chemical affinities, error minimization, stereochemical constraints, and frozen accidents \citep{crick1968,maynardsmith1995}.
+
+\paragraph{Are all categories codes?} No. An external observer can categorize anything. A biological code must be used by the system or its coupled partner to coordinate action across a boundary. A cell type named by a scientist is not automatically a code; a cell-fate state that downstream tissues interpret during development is. The difference is endogenous use.
+
+\paragraph{What about continuous signals?} Continuous signals can participate in codes when downstream interpretation partitions them into reliably distinguishable regimes. Many biological codes are mixed: continuous concentrations, timing, or phase relations are interpreted through thresholds, attractors, and competence windows. The principle predicts finite or effectively finite distinguishability at noisy finite-capacity boundaries, not literal digital discreteness at the substrate level.
+
+\paragraph{Is anticipation just prediction?} No. Prediction usually means constructing an internal model of a future state. Anticipation by synchronization is weaker and more physical: a system entrained to a slow mode does not need to represent the future explicitly; its present state is already trajectory-conditioned by a slow process whose near future is constrained. This is closer to Rosen's anticipation-as-internal-constraint than to Bayesian prediction-as-inference \citep{rosen1985,igamberdiev2014}, and more physically minimal: the constraint is supplied by entrainment, not by an explicit model.
+
+\paragraph{How does this relate to active inference?} The free-energy principle and active inference \citep{friston2010} can describe how a system selects actions under a generative model; the boundary-code principle asks how finite message alphabets and interpretable partitions arise when the regulated substrate cannot be transmitted through the boundary in full. Codes are candidate physical implementations of the compressed sufficient statistics on which active inference can operate, with the added claim that those sufficient statistics are often slow-mode-indexed.
+
+\paragraph{Does slow-mode coupling make codes less discrete?} Yes, often. Slow-mode-sensitive codes look less like static alphabets and more like alphabets indexed by context. Proposition~\ref{prop:latent} sharpens this: the boundary message $M_t$ may look nearly invariant while the receiver's entrained context $C_t$ carries the predictive information. The effective codeword is the pair $(M_t,C_t)$, not $M_t$ alone, and a reviewer asking ``if the code is anticipatory, why doesn't the boundary message visibly preserve phase?'' should note that the relevant variable is the receiver state.
+
+\paragraph{Why is biology privileged if the principle is substrate-general?} The principle is substrate-general; what makes biology privileged is that retention is coupled to viability. In physics, projection across a boundary produces observables; in biology, projection plus retention pressure produces \emph{codes}. A living system preserves and interprets the projection because doing so sustains its own organization. Cosmological boundaries produce effective variables but no interpreter retains them; the result is observables, not codes. Biological boundaries produce interpreted alphabets because the interpreter is itself sustained by the partition working.
+
+\section{Relation to prior papers}
+\label{sec:prior}
+
+This paper continues a sequence on information-theoretic constraints in biological substrates. The falsifiability paper established that low-dimensional tests fail in high-dimensional biological systems near measurement thresholds \citep{todd2025falsifiability}; the timing-inaccessibility paper established that temporal order in continuous substrates cannot always be registered by finite observers without cost \citep{todd2025maxwell}; the intelligence paper established the high-dimensional-substrate / low-dimensional-interface architecture of living intelligence \citep{todd2026a_intelligence}; the coherence-time paper established that coordinated state registration has a rate limit in oscillator assemblies \citep{todd2026b_coherencetime}. The present paper asks what happens when such substrates must coordinate across boundaries and across timescales: code formation anchored to slow-mode synchronization.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Code formation is the stable solution to a boundary problem. High-dimensional biological substrates contain more task-relevant structure than finite channels can transmit. Direct state sharing fails. Downstream processing cannot recover distinctions that projection erased. Repeated selection on coordination success therefore stabilizes finite partitions of substrate state. A biological code is a reusable, interpreted, viability-coupled partition at a dimensional boundary.
+
+The strongest biological codes add a second property: they preserve a slow-mode trajectory class, in the message, in the receiver's entrained context, or in some combination. A local system can act with respect to future constraints when it is linked to a slow mode whose future states are constrained by its present trajectory coordinate. This is anticipation by synchronization rather than prophecy or simulation; the operational unit is the code--context pair, and the same finite codeword can acquire different meanings at gating events.
+
+This reframes biological codes as consequences of physical constraint rather than optional representational overlays. Genetic codons, neural spikes, circadian gates, morphogenetic fates, immune motifs, hormones, quorum signals, and behavioral displays differ mechanistically but solve the same abstract problem: how to coordinate across a boundary too narrow for the dynamics themselves. Where continuous coupling suffices, no code is needed. Where it fails, retained low-loss solutions take code-like form. Biology uses codes because boundaries force it to compress, and viability teaches the compression what to preserve.
+
+\section*{Declarations}
+
+\paragraph{Funding.} No specific funding was received for this work.
+
+\paragraph{Competing interests.} The author declares no competing interests.
+
+\paragraph{Data availability.} No empirical datasets were generated or analysed during the current study. The figures and worked examples are produced by deterministic simulation code with fixed RNG seeds; the code (\texttt{simulations/}) and exact numerical outputs (\texttt{figures/*.txt}) are included with the manuscript and are also available at \url{https://github.com/todd866/code-formation-biosystems}.
+
+\paragraph{Author contributions.} Sole authorship.
+
+\paragraph{Use of AI tools.} During preparation of this work the author used Anthropic Claude and OpenAI GPT-5-class models for drafting assistance, mathematical review, and manuscript editing. All claims, definitions, formal statements, proofs, and scientific positions were directed, verified, and approved by the author, who takes full responsibility for the content of this manuscript.
+
+\appendix
+
+\section{Methods for the simulations}
+\label{app:methods}
+
+This appendix describes the simulation pipeline behind Figures~\ref{fig:phase-demo}--\ref{fig:capacity} and the supporting bulk-channel and stochastic-resonance demonstrations referenced in Section~\ref{sec:emergence}. All simulations are deterministic given the script-level RNG seeds and run with NumPy/SciPy.
+
+\paragraph{World generation.} Two world families are used. The \emph{toy world} (Figures~\ref{fig:phase-demo}--\ref{fig:emergence-demo}) places a slow phase $\phi_t\sim\mathrm{Unif}[0,2\pi)$ on the unit circle and embeds it as $X_{1:2}=(\cos\phi_t,\sin\phi_t)+\eta_t$ with isotropic Gaussian noise; in the six-dimensional version, four additional Gaussian distractor coordinates are appended. The \emph{hidden-embedding world} (Figure~\ref{fig:capacity} and supporting sweeps) generates a 10-dimensional latent slow trajectory from two coupled phase oscillators plus developmental and noise variables, then embeds it nonlinearly (linear plus quadratic plus pairwise terms with a $\tanh$ squash) into a nominal $N$-dimensional substrate with per-coordinate scaling, so the nominal dimension exceeds the effective dimension. The future viability landscape is a random nonlinear function of the latent coordinates with $R$ response programs; a future-horizon advance $\Delta$ is applied to the slow trajectory before scoring. The encoder and decoder see only $X\in\R^N$; latent coordinates and viability landscape are hidden.
+
+\paragraph{Encoder and decoder.} The encoder $\pi_\theta:\R^N\to\{0,\ldots,K-1\}$ takes the argmax of $K$ linear projections of $X$ (parameters $\theta\in\R^{K\times N}$ plus per-codeword biases). The decoder $\delta\in\{0,\ldots,R-1\}^K$ is a lookup table from codeword to response program. In the bulk-channel ablation, $\delta$ also receives a context $C_t$ obtained as a quartile discretization of the leading slow-mode coordinate.
+
+\paragraph{Selection loop.} A population of $P$ encoder--decoder pairs is initialized at random and evolved for $G$ generations. Each generation, every pair is evaluated on a fresh batch of $S$ substrate samples; the top fraction $f$ by future-class accuracy or normalized viability is retained, and the remainder is replaced by Gaussian-noise mutants of survivors plus occasional decoder-table flips. Hyperparameter values are listed in the per-script config blocks; defaults are population $P=64$--$160$, generations $G=250$--$450$, samples $S=768$--$1{,}200$, mutation std $0.03$--$0.05$, decoder-flip probability $0.05$--$0.08$, elite fraction $0.45$.
+
+\paragraph{Metrics.} \emph{Future-class accuracy} is the rate at which $\delta(\pi_\theta(X))$ matches the oracle response under the future-shifted task. \emph{Normalized viability} rescales the loss between a mean-action policy ($0$) and the oracle ($1$). \emph{Codeword-usage entropy} is $H(M)/\log_2 K$, where $H(M)$ is computed from empirical frequencies on the evaluation batch. Reported error bars are 95\% confidence intervals across random seeds (typically five per condition).
+
+\paragraph{Baseline definitions.} Two controls accompany selection. \emph{Drift} runs the same mutation operator with parents drawn uniformly at random rather than by fitness; it is a degraded baseline (fitness-blind random walk through parameter space). \emph{Memoryless random-population baseline} (labelled ``random search'' in figure captions) redraws the entire population at each generation and reports the final population, not the best genotype across all sampled genotypes. It is a per-generation-cost-matched control, not a true best-of-all matched random search; the asymmetry is disclosed here and in the relevant captions.
+
+\paragraph{Bulk-channel ablation.} Four architectures are evolved on the same world: \textsc{code-only} ($A=\delta(M)$), \textsc{bulk-only} ($A=\delta(C)$ with $C$ a four-class quartile of the leading slow-mode coordinate), \textsc{code+bulk} ($A=\delta(M,C)$), and \textsc{code+bulk trained shuffled} (the architecture trained against a context channel that has been permuted across samples in every batch). At evaluation, an \emph{intact} pass scores the policy on synchronized $(X,C,F)$, and a \emph{shuffled-eval} pass permutes $C$ across samples while preserving $M$. The supported claim, reflected in the docstring, is the synchronization-collapse signature: \textsc{code+bulk} drops sharply under shuffled-eval while \textsc{code-only} is unaffected. The two architectures are not predicted to differ in absolute viability under intact synchronization, and in observed runs they do not.
+
+\paragraph{Stochastic-resonance demonstration.} Two Kuramoto-style networks $B_1$ and $B_2$ ($N_1=N_2=64$) are coupled through a finite codeword $M_t\in\{0,1,2,3\}$ that discretizes $B_1$'s mean phase. A weak environmental signal $E_t=\cos(\omega_E t)$ forces $B_1$ at strength below the deterministic locking threshold; per-oscillator Gaussian noise of standard deviation $\sigma$ is swept on a logarithmic grid. $B_2$ is driven by codeword-keyed target phases offset by $\Delta$ from $B_1$'s phase quartiles. The receiver's predicted future class is $\mathrm{sign}\,\cos(\bar\phi_2)$; the target is $\mathrm{sign}\,\cos(E_{t+\Delta})$. Conditions are \textsc{selected} (target phases set to align $B_2$ with $E_{t+\Delta}$ given $B_1$'s entrainment), \textsc{random} (target phases drawn uniformly per codeword), \textsc{shuffled-eval} (synchronization-only ablation: $B_2$'s mean-phase trajectory is shuffled in time before scoring while the codeword sequence and $B_1$ dynamics are intact), and \textsc{no-code} ($B_2$ receives no codeword forcing). This is a minimal mechanism, not a model of any specific biological substrate; it shows that the bulk-codes architecture admits a clean stochastic-resonance signature in a tractable model.
+
+\paragraph{Scripts and outputs.} Each main and supporting experiment maps to a script and a deterministic results file. Scripts fix RNG seeds in their config blocks; rerunning from a clean checkout reproduces the reported numerical outputs to within floating-point tolerance.
+
+{\sloppy
+\begin{itemize}
+\setlength\itemsep{0pt}
+\item Fig.~\ref{fig:phase-demo} (one-bit phase demo): \\ \texttt{simulations/generate\_figures.py}, \texttt{figures/phase\_partition\_results.txt}.
+\item Fig.~\ref{fig:emergence-demo} (selection demo): \\ \texttt{simulations/emergence\_demo.py}, \texttt{figures/emergence\_results.txt}.
+\item Fig.~\ref{fig:capacity} (capacity sweep): \\ \texttt{simulations/first\_code\_complex\_capacity\_sweep.py}, \texttt{figures/sweep\_K\_capacity.txt}.
+\item $N$-dimension sweep (caption ref): \\ \texttt{simulations/first\_code\_complex\_sweep.py}, \texttt{figures/sweep\_N\_scaling.txt}.
+\item Bulk-channel ablation: \\ \texttt{simulations/code\_vs\_bulk\_ablation.py}, \texttt{figures/ablation\_code\_vs\_bulk.txt}.
+\item Stochastic-resonance demo: \\ \texttt{simulations/stochastic\_resonance\_sweep.py}, \texttt{figures/stochastic\_resonance.txt}.
+\end{itemize}
+}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

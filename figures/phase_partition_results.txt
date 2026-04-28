@@ -1,0 +1,38 @@
+noise=0.42
+delta_radians=1.570796
+best_angle_radians=4.721116
+random_accuracy=0.4990
+present_axis_accuracy=0.5007
+best_phase_partition_accuracy=0.8836
+phase_oracle_accuracy=1.0000
+random_mi_bits=0.0000
+present_axis_mi_bits=0.0000
+best_phase_partition_mi_bits=0.4811
+phase_oracle_mi_bits=1.0000
+
+# Delta sweep (n=60000 per delta, noise=0.42)
+delta=0.0000	best_acc=0.8834	best_angle=0.0087	present_acc=0.8833
+delta=0.1309	best_acc=0.8850	best_angle=2.9932	present_acc=0.8796
+delta=0.2618	best_acc=0.8860	best_angle=2.8711	present_acc=0.8645
+delta=0.3927	best_acc=0.8844	best_angle=2.7838	present_acc=0.8401
+delta=0.5236	best_acc=0.8839	best_angle=2.6180	present_acc=0.8107
+delta=0.6545	best_acc=0.8828	best_angle=2.4784	present_acc=0.7763
+delta=0.7854	best_acc=0.8833	best_angle=2.3911	present_acc=0.7389
+delta=0.9163	best_acc=0.8835	best_angle=2.1991	present_acc=0.7007
+delta=1.0472	best_acc=0.8821	best_angle=2.0944	present_acc=0.6610
+delta=1.1781	best_acc=0.8817	best_angle=1.9548	present_acc=0.6203
+delta=1.3090	best_acc=0.8828	best_angle=1.8326	present_acc=0.5796
+delta=1.4399	best_acc=0.8834	best_angle=1.7191	present_acc=0.5382
+delta=1.5708	best_acc=0.8817	best_angle=1.5882	present_acc=0.5026
+delta=1.7017	best_acc=0.8820	best_angle=1.4050	present_acc=0.5430
+delta=1.8326	best_acc=0.8821	best_angle=1.3003	present_acc=0.5834
+delta=1.9635	best_acc=0.8846	best_angle=4.2935	present_acc=0.6238
+delta=2.0944	best_acc=0.8860	best_angle=1.0123	present_acc=0.6624
+delta=2.2253	best_acc=0.8859	best_angle=0.9599	present_acc=0.7022
+delta=2.3562	best_acc=0.8848	best_angle=0.7941	present_acc=0.7389
+delta=2.4871	best_acc=0.8851	best_angle=0.6720	present_acc=0.7746
+delta=2.6180	best_acc=0.8833	best_angle=0.5411	present_acc=0.8092
+delta=2.7489	best_acc=0.8834	best_angle=0.4102	present_acc=0.8397
+delta=2.8798	best_acc=0.8832	best_angle=0.2793	present_acc=0.8622
+delta=3.0107	best_acc=0.8842	best_angle=0.1484	present_acc=0.8778
+delta=3.1416	best_acc=0.8834	best_angle=0.0087	present_acc=0.8833

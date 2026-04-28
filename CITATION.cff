@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+authors:
+  - family-names: "Todd"
+    given-names: "Ian"
+    orcid: "https://orcid.org/0009-0002-6994-0917"
+title: "Code Formation at Dimensional Boundaries: Finite-Bandwidth Coordination and Anticipation in Biology"
+version: 1.0.0
+date-released: 2026-04-28
+url: "https://github.com/todd866/code-formation-biosystems"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Todd"
+      given-names: "Ian"
+      orcid: "https://orcid.org/0009-0002-6994-0917"
+  title: "Code Formation at Dimensional Boundaries: Finite-Bandwidth Coordination and Anticipation in Biology"
+  journal: "BioSystems"
+  year: 2026
+  status: "submitted"
