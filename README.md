@@ -61,10 +61,10 @@ Todd, I. (2026). *BioSystems* (submitted).
 
 This paper continues a sequence on information-theoretic constraints in biological substrates:
 
-1. [Limits of Falsifiability](https://doi.org/10.1016/j.biosystems.2025.105608) — BioSystems 258, 105608 (2025).
-2. [Timing Inaccessibility](https://doi.org/10.1016/j.biosystems.2025.105632) — BioSystems 258, 105632 (2025).
-3. Intelligence as High-Dimensional Coherence — BioSystems (2026).
-4. [Coherence Time in Biological Oscillator Assemblies](https://github.com/todd866/coherence-time-biosystems) — BioSystems (2026), DOI: 10.1016/j.biosystems.2026.105755.
+1. [Limits of Falsifiability](https://doi.org/10.1016/j.biosystems.2025.105608) — *BioSystems* 258, 105608 (2025).
+2. [Timing Inaccessibility](https://doi.org/10.1016/j.biosystems.2025.105632) — *BioSystems* 258, 105632 (2025).
+3. [Intelligence as High-Dimensional Coherence](https://doi.org/10.1016/j.biosystems.2026.105704) — *BioSystems* (2026).
+4. [Coherence Time in Biological Oscillator Assemblies](https://doi.org/10.1016/j.biosystems.2026.105755) — *BioSystems* (2026). \[[code](https://github.com/todd866/coherence-time-biosystems)\]
 
 ## Citation
 
