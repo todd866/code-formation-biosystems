@@ -136,7 +136,7 @@ This excludes arbitrary classifications imposed by an external observer: a taxon
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/fig1_boundary_code_schematic.pdf}
-\caption{Boundary-code formation. A high-dimensional substrate cannot transmit its full state through a finite boundary channel, so repeated viability pressure selects reusable fibers of a projection $M=\pi(X)$. A slow-mode trajectory coordinate $\phi$ can condition the partition and the decoder, turning a compressed boundary message into an anticipatory code.}
+\caption{Schematic of forced codeword separation. Two recurrent substrate regimes, $S_1$ and $S_2$, require mutually incompatible responses. If a one-message boundary aliases both regimes to the same reliable message, the decoder must choose a single action and incurs regret at least $\gamma p$ on at least one regime. A low-regret protocol must therefore allocate distinct reliable messages to the incompatible regimes; for $r$ such regimes this requires at least $\log_2 r$ reliable bits. Distinct messages make regret below $\gamma p$ possible, subject to a decoder that assigns each message a good action.}
 \label{fig:boundary-code}
 \end{figure}
 
@@ -633,7 +633,7 @@ This reframes biological codes as consequences of physical constraint rather tha
 \section{Methods for the simulations}
 \label{app:methods}
 
-This appendix describes the simulation pipeline behind Figures~\ref{fig:phase-demo}--\ref{fig:capacity} and the supporting bulk-channel and stochastic-resonance demonstrations referenced in Section~\ref{sec:emergence}. All simulations are deterministic given the script-level RNG seeds and run with NumPy and Matplotlib.
+This appendix describes the simulation pipeline behind Figures~\ref{fig:boundary-code}--\ref{fig:capacity} and the supporting bulk-channel and stochastic-resonance demonstrations referenced in Section~\ref{sec:emergence}. All simulations are deterministic given the script-level RNG seeds and run with NumPy and Matplotlib.
 
 \paragraph{World generation.} Two world families are used. The \emph{toy world} (Figures~\ref{fig:phase-demo}--\ref{fig:emergence-demo}) places a slow phase $\phi_t\sim\mathrm{Unif}[0,2\pi)$ on the unit circle and embeds it as $X_{1:2}=(\cos\phi_t,\sin\phi_t)+\eta_t$ with isotropic Gaussian noise; in the six-dimensional version, four additional Gaussian distractor coordinates are appended. The \emph{hidden-embedding world} (Figure~\ref{fig:capacity} and supporting sweeps) generates a 10-dimensional latent slow trajectory from two coupled phase oscillators plus developmental and noise variables, then embeds it nonlinearly (linear plus quadratic plus pairwise terms with a $\tanh$ squash) into a nominal $N$-dimensional substrate with per-coordinate scaling, so the nominal dimension exceeds the effective dimension. The future viability landscape is a random nonlinear function of the latent coordinates with $R$ response programs; a future-horizon advance $\Delta$ is applied to the slow trajectory before scoring. The encoder and decoder see only $X\in\R^N$; latent coordinates and viability landscape are hidden.
 
@@ -654,6 +654,7 @@ This appendix describes the simulation pipeline behind Figures~\ref{fig:phase-de
 {\sloppy
 \begin{itemize}
 \setlength\itemsep{0pt}
+\item Fig.~\ref{fig:boundary-code} (forced codeword separation schematic): \\ \texttt{simulations/fig1\_schematic.py}.
 \item Fig.~\ref{fig:phase-demo} (one-bit phase demo): \\ \texttt{simulations/generate\_figures.py}, \texttt{figures/phase\_partition\_results.txt}.
 \item Fig.~\ref{fig:emergence-demo} (selection demo): \\ \texttt{simulations/emergence\_demo.py}, \texttt{figures/emergence\_results.txt}.
 \item Fig.~\ref{fig:capacity} (capacity sweep): \\ \texttt{simulations/first\_code\_complex\_capacity\_sweep.py}, \texttt{figures/sweep\_K\_capacity.txt}.

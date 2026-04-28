@@ -29,6 +29,7 @@ pip install numpy matplotlib
 Then from the repository root:
 
 ```bash
+python3 simulations/fig1_schematic.py                    # Fig 1 schematic (forced codeword separation)
 python3 simulations/generate_figures.py                  # one-bit slow-mode partition demo (Fig 2)
 python3 simulations/emergence_demo.py                    # selection-driven emergence (Fig 3)
 python3 simulations/first_code_complex_capacity_sweep.py # capacity sweep with codeword-usage entropy (Fig 4)
