@@ -57,7 +57,7 @@ The repository ships a pre-built `code_formation.pdf` (48 pp).
 
 **Code Formation at Dimensional Boundaries: Finite-Bandwidth Coordination and Anticipation in Biology**
 
-Todd, I. (2026). *BioSystems* (submitted).
+Todd, I. (2026). Target: *BioSystems* (in preparation).
 
 This paper continues a sequence on information-theoretic constraints in biological substrates:
 
@@ -74,7 +74,7 @@ This paper continues a sequence on information-theoretic constraints in biologic
   title   = {Code Formation at Dimensional Boundaries: Finite-Bandwidth Coordination and Anticipation in Biology},
   journal = {BioSystems},
   year    = {2026},
-  note    = {Submitted}
+  note    = {Manuscript in preparation}
 }
 ```
 
