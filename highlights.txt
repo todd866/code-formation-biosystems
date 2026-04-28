@@ -2,6 +2,6 @@ Finite codes form at boundaries that cannot carry the substrate dynamics.
 Retained low-loss protocols are partitions with fibers coherent under one action.
 Lloyd-Bayes alternating improvement has partition-shaped stationary fixed points.
 Action-incompatible substrate regimes force nontrivial codeword separation under low regret.
-Six axioms of bounded self-maintenance imply the forced-code conditions, so every living system forms at least one nontrivial code.
+Within bounded-self-maintenance axioms, living systems satisfy the forced-code conditions and form at least one nontrivial code.
 Anticipatory information may reside in receiver context, not only in messages.
 Anticipation arises by synchronization, not by simulation of future microstates.

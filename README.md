@@ -14,6 +14,7 @@ Biology is full of codes — codons, neural spikes, receptor–ligand interfaces
 - **Structural characterization (Prop 2)**: Retained low-loss protocols at finite-bandwidth boundaries are partitions of substrate state, with fibers approximately coherent under their assigned responses; this follows from rate-distortion together with non-recoverability of distinctions discarded by projection.
 - **Reachability (Props 3–4)**: An alternating Lloyd–Bayes improvement dynamics on encoder–decoder pairs decreases risk monotonically and reaches partition-shaped stationary protocols, in finitely many steps under standard tie-handling for finite/discretized substrate distributions.
 - **Forced nontrivial codes (Prop 6)**: When the substrate contains `r` mutually pointwise γ-action-incompatible regimes of mass at least `p`, any protocol with regret below `γ p` must use at least `r` distinct reliable codewords; below that capacity, an explicit regret floor of `γ p` acts.
+- **Conditional universality (§5, Cor 7)**: Six axioms of bounded self-maintenance — autopoietic closure, non-equilibrium maintenance, finite throughput, high-dimensional interior, action-incompatible regimes, retention — independently established across autopoiesis, non-equilibrium thermodynamics, complexity theory, life-history theory, and selection theory, jointly imply the forced-code conditions. Every living system therefore forms at least one nontrivial code at at least one of its boundaries.
 - **Code–context as the operational unit (Props 7–9)**: When the substrate is entrained to a slow trajectory, anticipatory information can reside in the boundary message, in the receiver's entrained context, or in both. Stable codewords can acquire different meanings at gating events without the message itself visibly preserving phase.
 - **Falsifiable prediction**: Phase-disruption experiments should selectively impair anticipation while leaving present-state classification approximately intact, dissociating the code's instantaneous identity from its predictive horizon.
 
@@ -49,7 +50,7 @@ pdflatex code_formation
 pdflatex code_formation
 ```
 
-The repository ships a pre-built `code_formation.pdf` (44 pp).
+The repository ships a pre-built `code_formation.pdf` (48 pp).
 
 ## Paper
 
