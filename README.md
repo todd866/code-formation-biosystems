@@ -19,17 +19,37 @@ Biology is full of codes — codons, neural spikes, receptor–ligand interfaces
 
 ## Running the Simulations
 
+Dependencies: `numpy`, `matplotlib`. Both are imported by all scripts; nothing else is required.
+
 ```bash
-cd simulations
-python3 generate_figures.py                       # one-bit slow-mode partition demo (Fig 2)
-python3 emergence_demo.py                         # selection-driven emergence (Fig 3)
-python3 first_code_complex_capacity_sweep.py      # capacity sweep with codeword-usage entropy (Fig 4)
-python3 first_code_complex_sweep.py               # robustness across substrate dimension N
-python3 code_vs_bulk_ablation.py                  # bulk-channel synchronization ablation
-python3 stochastic_resonance_sweep.py             # coupled-Kuramoto stochastic-resonance demo
+pip install numpy matplotlib
+```
+
+Then from the repository root:
+
+```bash
+python3 simulations/generate_figures.py                  # one-bit slow-mode partition demo (Fig 2)
+python3 simulations/emergence_demo.py                    # selection-driven emergence (Fig 3)
+python3 simulations/first_code_complex_capacity_sweep.py # capacity sweep with codeword-usage entropy (Fig 4)
+python3 simulations/first_code_complex_sweep.py          # robustness across substrate dimension N
+python3 simulations/code_vs_bulk_ablation.py             # bulk-channel synchronization ablation
+python3 simulations/stochastic_resonance_sweep.py        # coupled-Kuramoto stochastic-resonance demo
 ```
 
 All scripts fix RNG seeds in their config blocks; rerunning from a clean checkout reproduces the reported numerical outputs to within floating-point tolerance. Outputs land in `figures/` as both `.pdf`/`.png` plots and deterministic `.txt` results files.
+
+## Building the Manuscript
+
+Requires a TeX distribution with `pdflatex`, `bibtex`, `natbib`, and `hyperref`.
+
+```bash
+pdflatex code_formation
+bibtex code_formation
+pdflatex code_formation
+pdflatex code_formation
+```
+
+The repository ships a pre-built `code_formation.pdf` (44 pp).
 
 ## Paper
 

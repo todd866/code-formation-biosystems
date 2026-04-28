@@ -18,10 +18,10 @@ Outputs:
   figures/first_code_complex_<tag>.txt
 
 Example quick smoke:
-  python3 code/first_code_complex_sim.py --preset smoke
+  python3 simulations/first_code_complex_sim.py --preset smoke
 
 Example overnight-ish run on an Apple Silicon laptop:
-  python3 code/first_code_complex_sim.py --preset overnight --tag overnight
+  python3 simulations/first_code_complex_sim.py --preset overnight --tag overnight
 """
 
 from __future__ import annotations

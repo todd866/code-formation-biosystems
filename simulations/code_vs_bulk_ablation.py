@@ -2,7 +2,7 @@
 """Code-vs-bulk ablation for the boundary-code framework.
 
 This sim tests the synchronization-collapse signature of the latent-context
-route (Proposition 4):
+proposition (Latent anticipation through context):
 
   A system trained to use a code + bulk-context channel loses viability
   when bulk-environment synchronization is destroyed at evaluation, while
@@ -30,8 +30,9 @@ Predictions (operative claim, narrower than originally drafted)
 - CODE_PLUS_BULK and CODE_ONLY may be statistically indistinguishable in this
   regime: when channel capacity is large enough for the encoder to extract
   slow-mode information directly from the substrate, an explicit bulk channel
-  is one route among others (latent-context route of Proposition 4). In the
-  observed runs CODE_ONLY is in fact slightly higher than CODE_PLUS_BULK.
+  is one route among others (latent-context route of the Latent
+  Anticipation proposition). In the observed runs CODE_ONLY is in fact
+  slightly higher than CODE_PLUS_BULK.
 - CODE_PLUS_BULK > BULK_ONLY: a coarse four-class context is too coarse to
   address eight response programs.
 - CODE_PLUS_SHUFFLED < CODE_PLUS_BULK at evaluation: shuffling the bulk
