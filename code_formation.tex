@@ -19,6 +19,7 @@
 \newtheorem{remark}{Remark}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
+\newtheorem{axiom}{Axiom}
 
 \newcommand{\X}{\mathcal{X}}
 \newcommand{\Y}{\mathcal{Y}}
@@ -48,7 +49,7 @@ Sydney, NSW, Australia\\
 \maketitle
 
 \begin{abstract}
-A biological code is what survives when high-dimensional dynamics must coordinate through a boundary too narrow to carry them. This paper develops the claim formally. A rate-distortion and data-processing argument shows that retained low-loss protocols at finite-bandwidth boundaries take the form of finite partitions of substrate state, with fibers coherent under their assigned responses. Under finite or discretized conditions, an alternating Lloyd--Bayes improvement dynamics on encoder--decoder pairs decreases risk monotonically and has partition-shaped stationary limit points. When the substrate contains mutually action-incompatible regimes, the alphabet of any low-regret protocol is bounded below by the number of such regimes, so codes are forced rather than merely admitted; below that capacity, an explicit regret floor acts. A sufficient-statistic argument extends the principle across timescales: when the substrate is entrained to a slow trajectory, anticipatory content can reside in the boundary message, in the receiver's entrained context, or in both. The operational unit is therefore the code--context pair, and stable codewords can acquire different meanings at gating events without the message itself preserving phase. The framework predicts where codes appear, where continuous coupling persists, and how channel bandwidth, slow-mode coupling, and viability pressure shape the partition. It does not derive any particular alphabet such as the codon table; it explains why such alphabets exist as a general boundary phenomenon.
+A biological code is what survives when high-dimensional dynamics must coordinate through a boundary too narrow to carry them. This paper develops the claim formally. A rate-distortion and data-processing argument shows that retained low-loss protocols at finite-bandwidth boundaries take the form of finite partitions of substrate state, with fibers coherent under their assigned responses. Under finite or discretized conditions, an alternating Lloyd--Bayes improvement dynamics on encoder--decoder pairs decreases risk monotonically and has partition-shaped stationary limit points. When the substrate contains mutually action-incompatible regimes, the alphabet of any low-regret protocol is bounded below by the number of such regimes, so codes are forced rather than merely admitted; below that capacity, an explicit regret floor acts. Embedded in a small set of independently-motivated axioms about bounded self-maintenance, this conditional yields a universality theorem: every living system forms at least one nontrivial code at at least one of its boundaries. A sufficient-statistic argument extends the principle across timescales: when the substrate is entrained to a slow trajectory, anticipatory content can reside in the boundary message, in the receiver's entrained context, or in both. The operational unit is therefore the code--context pair, and stable codewords can acquire different meanings at gating events without the message itself preserving phase. The framework predicts where codes appear, where continuous coupling persists, and how channel bandwidth, slow-mode coupling, and viability pressure shape the partition. It does not derive any particular alphabet such as the codon table; it explains why such alphabets exist as a general boundary phenomenon.
 \end{abstract}
 
 \noindent\textbf{Keywords:} biological codes; code formation; dimensionality; rate-distortion; anticipation; biosemiotics
@@ -67,7 +68,7 @@ The claim is not that all biological categories deserve the name ``code.'' It is
 
 This makes code formation the next step in a sequence on information-theoretic constraints in biological substrates. Previous papers in this program addressed what observers can falsify \citep{todd2025falsifiability}, what they can measure in continuous substrates \citep{todd2025maxwell}, why intelligence requires high-dimensional internal dynamics with low-dimensional interfaces \citep{todd2026a_intelligence}, and how biological oscillator assemblies are rate-limited by coherence time \citep{todd2026b_coherencetime}. The present paper addresses the downstream consequence: when such substrates coordinate across boundaries and timescales, finite codes form, and the strongest of them inherit anticipatory horizon by entraining to slow modes.
 
-The rest of the paper is organised as follows. Section~\ref{sec:problem} defines the code-formation problem. Section~\ref{sec:framework} gives the formal setup. Section~\ref{sec:theorem} states the projection, non-recoverability, partition, convergence, forced-nontriviality, and anticipation results, with a worked one-bit example. Section~\ref{sec:emergence} shows that the predicted partition is reachable from random initial conditions under selection on coordination loss, and that channel capacity shapes the effective codeword alphabet. Section~\ref{sec:mechanism} sketches biological implementation. Section~\ref{sec:cases} lists biological instances. Sections~\ref{sec:predictions}--\ref{sec:objections} give predictions and address objections. Section~\ref{sec:prior} situates the work in the prior papers. Section~\ref{sec:conclusion} concludes.
+The rest of the paper is organised as follows. Section~\ref{sec:problem} defines the code-formation problem. Section~\ref{sec:framework} gives the formal setup. Section~\ref{sec:theorem} states the projection, non-recoverability, partition, convergence, forced-nontriviality, and anticipation results, with a worked one-bit example. Section~\ref{sec:universal} axiomatizes bounded self-maintenance and proves that any system satisfying the axioms forms at least one nontrivial code. Section~\ref{sec:emergence} shows that the predicted partition is reachable from random initial conditions under selection on coordination loss, and that channel capacity shapes the effective codeword alphabet. Section~\ref{sec:mechanism} sketches biological implementation. Section~\ref{sec:cases} lists biological instances. Sections~\ref{sec:predictions}--\ref{sec:objections} give predictions and address objections. Section~\ref{sec:prior} situates the work in the prior papers. Section~\ref{sec:conclusion} concludes.
 
 \section{The code-formation problem}
 \label{sec:problem}
@@ -416,6 +417,69 @@ with $\eta_t$ Gaussian noise and $\phi_t$ a coherent slow phase. The boundary tr
 \label{fig:phase-demo}
 \end{figure}
 
+\section{Conditional universality for bounded self-maintaining systems}
+\label{sec:universal}
+
+Proposition~\ref{prop:forced} is conditional. The empirical claim that living systems form codes is universal. The gap is closed by axiomatizing bounded self-maintenance and showing the axioms imply the conditions of Proposition~\ref{prop:forced}. The axioms below are not invented to yield codes; they aggregate standard commitments of autopoiesis \citep{maturana1980,polanyi1968}, Schr\"odinger--Prigogine non-equilibrium thermodynamics \citep{schrodinger1944,prigogine1977}, complexity theory, life-history theory, and selection theory. Codes are derived.
+
+\subsection{Axioms}
+
+\begin{axiom}[Autopoietic boundary closure]
+\label{ax:closure}
+A living system maintains a boundary $\partial$ distinguishing interior $\Omega$ from environment, self-produced and self-maintained by interior dynamics; dissolution of $\partial$ entails dissolution of the system.
+\end{axiom}
+
+\begin{axiom}[Non-equilibrium maintenance]
+\label{ax:nonequilibrium}
+The interior $\Omega$ persists only by exchanging matter, energy, or information across $\partial$ at rates sufficient to maintain organization away from thermodynamic equilibrium. Cessation of such exchange entails relaxation toward equilibrium.
+\end{axiom}
+
+\begin{axiom}[Finite boundary throughput]
+\label{ax:finite}
+The boundary $\partial$ has finite reliable throughput in the sense of Definition~\ref{def:boundarychannel}.
+\end{axiom}
+
+\begin{axiom}[High-dimensional interior]
+\label{ax:highd}
+The interior state $\Omega$ has effective dimension exceeding the boundary's reliable capacity over the relevant coordination timescales.
+\end{axiom}
+
+\begin{axiom}[Action-incompatible regimes]
+\label{ax:incompat}
+The interior dynamics admit at least two recurrent regimes $S_1, S_2 \subseteq \Omega$ of positive measure on persistence timescales, mutually pointwise $\gamma$-action-incompatible (Definition~\ref{def:incompatible}) for some $\gamma > 0$, with dissolution a positive-probability outcome of incorrect response selection.
+\end{axiom}
+
+This is the substantive condition. Non-equilibrium maintenance plus a non-trivial life cycle motivates it: replication, repair, defense, and growth phases are not interchangeable in their action requirements, and an organism cycling between them faces regimes whose optimal responses differ. A perfectly homogeneous gradient-free environment over the persistence timescale removes such regimes and triggers the no-code regime of Corollary~\ref{cor:nocode}, but Axiom~\ref{ax:nonequilibrium} excludes that limit for living systems. The theorem requires Axiom~\ref{ax:incompat} explicitly; the connection is motivation, not derivation.
+
+\begin{axiom}[Retention]
+\label{ax:retention}
+Mappings from interior state to boundary action that reduce expected viability loss are preferentially stabilized by selection, learning, plasticity, development, or homeostasis.
+\end{axiom}
+
+\subsection{Theorem}
+
+\begin{proposition}[Conditional universality of nontrivial codes]
+\label{prop:universal}
+Any system satisfying Axioms~\ref{ax:closure}--\ref{ax:retention} forms at least one nontrivial code at at least one of its boundaries: any low-regret protocol it maintains across that boundary uses at least two distinct reliable codewords, or pays a regret floor incompatible with persistence on the relevant timescale.
+\end{proposition}
+
+\begin{proof}
+Axiom~\ref{ax:closure} supplies the boundary; Axiom~\ref{ax:finite} the finite reliable throughput; Axiom~\ref{ax:highd} the high-dimensional interior; Axiom~\ref{ax:incompat} two action-incompatible regimes $S_1, S_2$ of mass $p>0$ with margin $\gamma>0$; Axiom~\ref{ax:nonequilibrium} their recurrence; Axiom~\ref{ax:retention} viability-coupled retention. If expected regret exceeded $\gamma p$ on persistence timescales, the regret-floor clause of Proposition~\ref{prop:forced} would force persistence failure, contradicting Axiom~\ref{ax:nonequilibrium}. Proposition~\ref{prop:forced} then forces the protocol to use at least two distinct reliable codewords across $S_1 \cup S_2$.
+\end{proof}
+
+The conclusion is the minimal result: at least two codewords. Real biological systems satisfy the conditions for $r \gg 2$ --- codons, spike alphabets, cell-fate alphabets, immune repertoires --- because the action-incompatibility number of an organized living substrate is large; the proposition only guarantees the floor.
+
+\subsection{Status of the universality claim}
+
+The axioms do not mention codes, partitions, or messages. They describe boundary closure, non-equilibrium maintenance, finite throughput, multi-component interior, action-incompatible regimes, and retention --- each operationally specifiable without reference to coding. The package is over-determined: each axiom has independent provenance in a separate intellectual tradition (autopoiesis, non-equilibrium thermodynamics, complexity theory, life-history theory, selection theory), and rejecting any single tradition leaves the others standing. The result is therefore not ``biology forms codes because we have defined biology as code-forming,'' but ``codes follow from a small set of commitments standardly held about life, none of which were assembled to yield codes.''
+
+\begin{corollary}[Conditional universality of biological codes]
+\label{cor:calibrated}
+Within the axiomatic framework of Axioms~\ref{ax:closure}--\ref{ax:retention}, every living system forms at least one nontrivial code at at least one of its boundaries.
+\end{corollary}
+
+The corollary does not derive any particular alphabet, does not claim global optimality of any reached code, and does not extend to systems violating an axiom --- in particular, systems out of non-equilibrium maintenance on the relevant timescale (dormant spores under sufficient quiescence) fall outside Axiom~\ref{ax:nonequilibrium} and are not bound by the theorem until they re-enter active maintenance.
+
 \section{Selection-driven emergence}
 \label{sec:emergence}
 
@@ -536,7 +600,7 @@ Behavioral / social & body--observer & gesture, display & receiver policy & soci
 
 \paragraph{Why is biology privileged if the principle is substrate-general?} The principle is substrate-general; what makes biology privileged is that retention is coupled to viability. In physics, projection across a boundary produces observables; in biology, projection plus retention pressure produces \emph{codes}. A living system preserves and interprets the projection because doing so sustains its own organization. Cosmological boundaries produce effective variables but no interpreter retains them; the result is observables, not codes. Biological boundaries produce interpreted alphabets because the interpreter is itself sustained by the partition working.
 
-\paragraph{Does this prove all biological systems form codes?} No, and deliberately so. Proposition~\ref{prop:forced} states sufficient conditions: pointwise $\gamma$-action-incompatibility of $r$ regions of mass at least $p$, finite reliable boundary alphabet, and low-regret viability pressure. Where those conditions are met, codes are forced. Where they are not --- where the substrate's task-relevant action structure is fully integrable across the relevant boundary, where channel capacity already supports continuous coupling, or where viability pressure is weak --- the framework predicts continuous coupling rather than discrete codes (Corollary~\ref{cor:nocode}). The biological cases of Section~\ref{sec:cases} argue that the conditions are typical at the substrate boundaries listed in Table~\ref{tab:cases}, not that they are universal across all biological organization. Establishing the conditions empirically in any specific biological substrate is a separate task from proving the implication.
+\paragraph{Does this prove all biological systems form codes?} Within the axiomatic framework of Section~\ref{sec:universal}, yes (Corollary~\ref{cor:calibrated}). Outside the framework, the claim is empirical: the axioms are independently motivated by five biological traditions, and the conditions are met at every substrate boundary in Section~\ref{sec:cases}. The contingent structure of any specific code (codon table, particular spike alphabets, cell-fate repertoires) is not derived; nor are systems violating Axiom~\ref{ax:nonequilibrium} (dormant spores under sufficient quiescence) covered, until they re-enter non-equilibrium maintenance.
 
 \section{Relation to prior papers}
 \label{sec:prior}
@@ -546,7 +610,7 @@ This paper continues a sequence on information-theoretic constraints in biologic
 \section{Conclusion}
 \label{sec:conclusion}
 
-Code formation is the stable solution to a boundary problem. High-dimensional biological substrates contain more task-relevant structure than finite channels can transmit. Direct state sharing fails. Downstream processing cannot recover distinctions that projection erased. Repeated selection on coordination success therefore stabilizes finite partitions of substrate state. A biological code is a reusable, interpreted, viability-coupled partition at a dimensional boundary. Where action-incompatible regimes recur, low-regret coordination is forced to assign them distinct reliable messages or incur an explicit regret floor.
+Code formation is the stable solution to a boundary problem. High-dimensional biological substrates contain more task-relevant structure than finite channels can transmit. Direct state sharing fails. Downstream processing cannot recover distinctions that projection erased. Repeated selection on coordination success therefore stabilizes finite partitions of substrate state. A biological code is a reusable, interpreted, viability-coupled partition at a dimensional boundary. Where action-incompatible regimes recur, low-regret coordination is forced to assign them distinct reliable messages or incur an explicit regret floor. Within an axiomatization of bounded self-maintenance, every living system satisfies the conditions and so forms at least one nontrivial code at at least one of its boundaries.
 
 The strongest biological codes add a second property: they preserve a slow-mode trajectory class, in the message, in the receiver's entrained context, or in some combination. A local system can act with respect to future constraints when it is linked to a slow mode whose future states are constrained by its present trajectory coordinate. This is anticipation by synchronization rather than prophecy or simulation; the operational unit is the code--context pair, and the same finite codeword can acquire different meanings at gating events.
 
