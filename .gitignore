@@ -27,3 +27,6 @@ __pycache__/
 
 # Internal materials (kept locally, not pushed)
 archive/
+
+# Large generated checkpoints; aggregate histories are kept for reproducibility.
+runs/**/model_state.npz

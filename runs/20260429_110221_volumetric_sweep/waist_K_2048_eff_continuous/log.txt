@@ -1,0 +1,137 @@
+[16:52:29] run_dir = /Users/iantodd/Projects/highdimensional/biosystems/87_code_formation_boundaries/runs/20260429_110221_volumetric_sweep/waist_K_2048_eff_continuous
+[16:52:29] cfg = {'n_phase_modes': 4, 'n_dev_modes': 4, 'n_noise_modes': 4, 'phase_taus': [5.0, 20.0, 60.0, 200.0], 'delta': 10.0, 'n_bulk': 2048, 'embed_hidden': 96, 'r_task': 8, 'task_phase_mode': 3, 'width_profile': [1024, 512, 256, 128, 64, 32, 16, 32, 64, 128, 256, 512], 'waist_k': 2048, 'tau_init': 1.0, 'tau_min': 0.5, 'anneal_frac': 0.4, 'n_seeds': 4, 'n_iters': 15000, 'batch_size': 2048, 'lr': 0.001, 'weight_decay': 0.0, 'log_every': 500, 'measure_every': 200, 'eval_batch': 2000, 'seed': 20260429, 'run_tag': 'waist_K_2048_eff_continuous', 'device': 'mps'}
+[16:52:29] torch=2.10.0 device=mps
+[16:52:29] width_profile=[1024, 512, 256, 128, 64, 32, 16, 32, 64, 128, 256, 512], K_waist=2048, n_seeds=4, n_iters=15000, batch=2048
+[16:52:29] === seed 1/4 (torch_seed=20260429) ===
+[16:52:30]   seed 20260429  it      0/15000  loss=2.080  acc=0.130  meas_acc=0.128  H_waist=0.083  MI_F_waist=0.146  D_waist=3.66  1.0it/s  ETA=261.8m
+[16:52:57]   seed 20260429  it    500/15000  loss=1.827  acc=0.220  meas_acc=0.229  H_waist=0.091  MI_F_waist=0.496  D_waist=1.00  18.0it/s  ETA=13.4m
+[16:53:24]   seed 20260429  it   1000/15000  loss=1.735  acc=0.239  meas_acc=0.228  H_waist=0.091  MI_F_waist=0.527  D_waist=1.00  18.3it/s  ETA=12.8m
+[16:53:50]   seed 20260429  it   1500/15000  loss=1.665  acc=0.246  meas_acc=0.241  H_waist=0.090  MI_F_waist=0.614  D_waist=1.00  18.5it/s  ETA=12.2m
+[16:54:18]   seed 20260429  it   2000/15000  loss=1.652  acc=0.246  meas_acc=0.247  H_waist=0.091  MI_F_waist=0.643  D_waist=1.00  18.3it/s  ETA=11.8m
+[16:54:48]   seed 20260429  it   2500/15000  loss=1.613  acc=0.260  meas_acc=0.245  H_waist=0.112  MI_F_waist=0.701  D_waist=1.20  18.1it/s  ETA=11.5m
+[16:55:16]   seed 20260429  it   3000/15000  loss=1.103  acc=0.508  meas_acc=0.626  H_waist=0.267  MI_F_waist=1.792  D_waist=2.40  18.0it/s  ETA=11.1m
+[16:55:44]   seed 20260429  it   3500/15000  loss=0.861  acc=0.630  meas_acc=0.642  H_waist=0.279  MI_F_waist=1.827  D_waist=2.50  18.0it/s  ETA=10.6m
+[16:56:13]   seed 20260429  it   4000/15000  loss=0.846  acc=0.635  meas_acc=0.647  H_waist=0.273  MI_F_waist=1.848  D_waist=2.49  17.9it/s  ETA=10.2m
+[16:56:40]   seed 20260429  it   4500/15000  loss=0.865  acc=0.628  meas_acc=0.585  H_waist=0.263  MI_F_waist=1.706  D_waist=2.34  17.9it/s  ETA=9.8m
+[16:57:09]   seed 20260429  it   5000/15000  loss=0.862  acc=0.621  meas_acc=0.657  H_waist=0.284  MI_F_waist=1.886  D_waist=2.43  17.9it/s  ETA=9.3m
+[16:57:37]   seed 20260429  it   5500/15000  loss=0.831  acc=0.636  meas_acc=0.663  H_waist=0.287  MI_F_waist=1.889  D_waist=2.37  17.9it/s  ETA=8.8m
+[16:58:06]   seed 20260429  it   6000/15000  loss=0.833  acc=0.631  meas_acc=0.615  H_waist=0.279  MI_F_waist=1.846  D_waist=2.38  17.8it/s  ETA=8.4m
+[16:58:34]   seed 20260429  it   6500/15000  loss=0.916  acc=0.591  meas_acc=0.610  H_waist=0.272  MI_F_waist=1.780  D_waist=2.16  17.8it/s  ETA=7.9m
+[16:59:03]   seed 20260429  it   7000/15000  loss=0.858  acc=0.621  meas_acc=0.653  H_waist=0.280  MI_F_waist=1.838  D_waist=2.28  17.8it/s  ETA=7.5m
+[16:59:31]   seed 20260429  it   7500/15000  loss=0.901  acc=0.592  meas_acc=0.612  H_waist=0.275  MI_F_waist=1.818  D_waist=2.36  17.8it/s  ETA=7.0m
+[17:00:00]   seed 20260429  it   8000/15000  loss=1.068  acc=0.504  meas_acc=0.547  H_waist=0.237  MI_F_waist=1.560  D_waist=2.07  17.7it/s  ETA=6.6m
+[17:00:28]   seed 20260429  it   8500/15000  loss=0.963  acc=0.569  meas_acc=0.613  H_waist=0.244  MI_F_waist=1.698  D_waist=2.36  17.8it/s  ETA=6.1m
+[17:00:57]   seed 20260429  it   9000/15000  loss=0.899  acc=0.600  meas_acc=0.643  H_waist=0.260  MI_F_waist=1.785  D_waist=2.44  17.7it/s  ETA=5.6m
+[17:01:25]   seed 20260429  it   9500/15000  loss=1.013  acc=0.521  meas_acc=0.488  H_waist=0.214  MI_F_waist=1.499  D_waist=2.02  17.8it/s  ETA=5.2m
+[17:01:53]   seed 20260429  it  10000/15000  loss=1.220  acc=0.425  meas_acc=0.445  H_waist=0.193  MI_F_waist=1.353  D_waist=1.61  17.7it/s  ETA=4.7m
+[17:02:19]   seed 20260429  it  10500/15000  loss=1.099  acc=0.487  meas_acc=0.488  H_waist=0.217  MI_F_waist=1.443  D_waist=1.87  17.8it/s  ETA=4.2m
+[17:02:47]   seed 20260429  it  11000/15000  loss=1.038  acc=0.511  meas_acc=0.536  H_waist=0.234  MI_F_waist=1.599  D_waist=1.86  17.8it/s  ETA=3.7m
+[17:03:14]   seed 20260429  it  11500/15000  loss=1.084  acc=0.494  meas_acc=0.419  H_waist=0.193  MI_F_waist=1.299  D_waist=1.89  17.8it/s  ETA=3.3m
+[17:03:45]   seed 20260429  it  12000/15000  loss=1.182  acc=0.462  meas_acc=0.576  H_waist=0.274  MI_F_waist=1.787  D_waist=2.19  17.8it/s  ETA=2.8m
+[17:04:17]   seed 20260429  it  12500/15000  loss=1.034  acc=0.536  meas_acc=0.570  H_waist=0.241  MI_F_waist=1.598  D_waist=1.96  17.7it/s  ETA=2.4m
+[17:04:51]   seed 20260429  it  13000/15000  loss=1.114  acc=0.482  meas_acc=0.541  H_waist=0.210  MI_F_waist=1.572  D_waist=1.86  17.5it/s  ETA=1.9m
+[17:05:27]   seed 20260429  it  13500/15000  loss=1.334  acc=0.385  meas_acc=0.387  H_waist=0.168  MI_F_waist=1.175  D_waist=1.38  17.4it/s  ETA=1.4m
+[17:06:14]   seed 20260429  it  14000/15000  loss=1.181  acc=0.448  meas_acc=0.452  H_waist=0.196  MI_F_waist=1.332  D_waist=1.77  17.0it/s  ETA=1.0m
+[17:06:50]   seed 20260429  it  14500/15000  loss=1.105  acc=0.480  meas_acc=0.483  H_waist=0.194  MI_F_waist=1.409  D_waist=1.78  16.8it/s  ETA=0.5m
+[17:07:26]   seed 20260429  it  14999/15000  loss=1.128  acc=0.475  meas_acc=0.345  H_waist=0.172  MI_F_waist=1.162  D_waist=1.93  16.7it/s  ETA=0.0m
+[17:07:26]   seed 20260429 done. final acc=0.345, wall=15.0m
+[17:07:26] === seed 2/4 (torch_seed=20261429) ===
+[17:07:28]   seed 20261429  it      0/15000  loss=2.080  acc=0.128  meas_acc=0.123  H_waist=0.114  MI_F_waist=0.092  D_waist=3.51  0.6it/s  ETA=413.6m
+[17:07:56]   seed 20261429  it    500/15000  loss=1.858  acc=0.217  meas_acc=0.222  H_waist=0.090  MI_F_waist=0.378  D_waist=1.00  17.2it/s  ETA=14.1m
+[17:08:24]   seed 20261429  it   1000/15000  loss=1.759  acc=0.237  meas_acc=0.234  H_waist=0.091  MI_F_waist=0.416  D_waist=1.00  17.5it/s  ETA=13.3m
+[17:08:50]   seed 20261429  it   1500/15000  loss=1.780  acc=0.234  meas_acc=0.248  H_waist=0.090  MI_F_waist=0.475  D_waist=1.00  17.9it/s  ETA=12.6m
+[17:09:21]   seed 20261429  it   2000/15000  loss=1.753  acc=0.238  meas_acc=0.222  H_waist=0.091  MI_F_waist=0.475  D_waist=1.00  17.5it/s  ETA=12.4m
+[17:09:48]   seed 20261429  it   2500/15000  loss=1.734  acc=0.240  meas_acc=0.242  H_waist=0.089  MI_F_waist=0.495  D_waist=1.00  17.7it/s  ETA=11.8m
+[17:10:17]   seed 20261429  it   3000/15000  loss=1.685  acc=0.245  meas_acc=0.231  H_waist=0.091  MI_F_waist=0.552  D_waist=1.00  17.6it/s  ETA=11.4m
+[17:10:46]   seed 20261429  it   3500/15000  loss=1.666  acc=0.247  meas_acc=0.259  H_waist=0.091  MI_F_waist=0.647  D_waist=1.00  17.5it/s  ETA=10.9m
+[17:11:15]   seed 20261429  it   4000/15000  loss=1.630  acc=0.248  meas_acc=0.227  H_waist=0.090  MI_F_waist=0.655  D_waist=1.00  17.5it/s  ETA=10.5m
+[17:11:44]   seed 20261429  it   4500/15000  loss=1.638  acc=0.248  meas_acc=0.252  H_waist=0.091  MI_F_waist=0.652  D_waist=1.00  17.5it/s  ETA=10.0m
+[17:12:13]   seed 20261429  it   5000/15000  loss=1.639  acc=0.247  meas_acc=0.254  H_waist=0.091  MI_F_waist=0.660  D_waist=1.00  17.4it/s  ETA=9.6m
+[17:12:43]   seed 20261429  it   5500/15000  loss=1.637  acc=0.247  meas_acc=0.248  H_waist=0.090  MI_F_waist=0.612  D_waist=1.00  17.4it/s  ETA=9.1m
+[17:13:14]   seed 20261429  it   6000/15000  loss=1.642  acc=0.247  meas_acc=0.230  H_waist=0.091  MI_F_waist=0.632  D_waist=1.00  17.3it/s  ETA=8.7m
+[17:13:42]   seed 20261429  it   6500/15000  loss=1.617  acc=0.248  meas_acc=0.246  H_waist=0.091  MI_F_waist=0.668  D_waist=1.00  17.3it/s  ETA=8.2m
+[17:14:11]   seed 20261429  it   7000/15000  loss=1.622  acc=0.248  meas_acc=0.245  H_waist=0.091  MI_F_waist=0.686  D_waist=1.01  17.3it/s  ETA=7.7m
+[17:14:40]   seed 20261429  it   7500/15000  loss=1.369  acc=0.382  meas_acc=0.461  H_waist=0.217  MI_F_waist=1.415  D_waist=1.73  17.3it/s  ETA=7.2m
+[17:15:10]   seed 20261429  it   8000/15000  loss=1.031  acc=0.544  meas_acc=0.565  H_waist=0.224  MI_F_waist=1.570  D_waist=2.36  17.2it/s  ETA=6.8m
+[17:15:41]   seed 20261429  it   8500/15000  loss=0.990  acc=0.571  meas_acc=0.603  H_waist=0.235  MI_F_waist=1.648  D_waist=2.36  17.2it/s  ETA=6.3m
+[17:16:11]   seed 20261429  it   9000/15000  loss=0.972  acc=0.583  meas_acc=0.621  H_waist=0.237  MI_F_waist=1.699  D_waist=2.36  17.2it/s  ETA=5.8m
+[17:16:40]   seed 20261429  it   9500/15000  loss=0.957  acc=0.590  meas_acc=0.608  H_waist=0.237  MI_F_waist=1.655  D_waist=2.32  17.2it/s  ETA=5.3m
+[17:17:12]   seed 20261429  it  10000/15000  loss=0.986  acc=0.568  meas_acc=0.598  H_waist=0.235  MI_F_waist=1.706  D_waist=2.36  17.1it/s  ETA=4.9m
+[17:17:41]   seed 20261429  it  10500/15000  loss=0.963  acc=0.554  meas_acc=0.590  H_waist=0.234  MI_F_waist=1.668  D_waist=2.43  17.1it/s  ETA=4.4m
+[17:18:12]   seed 20261429  it  11000/15000  loss=0.969  acc=0.542  meas_acc=0.586  H_waist=0.236  MI_F_waist=1.702  D_waist=2.30  17.0it/s  ETA=3.9m
+[17:18:42]   seed 20261429  it  11500/15000  loss=0.989  acc=0.539  meas_acc=0.594  H_waist=0.246  MI_F_waist=1.736  D_waist=2.25  17.0it/s  ETA=3.4m
+[17:19:17]   seed 20261429  it  12000/15000  loss=1.023  acc=0.520  meas_acc=0.602  H_waist=0.241  MI_F_waist=1.710  D_waist=2.12  16.9it/s  ETA=3.0m
+[17:19:51]   seed 20261429  it  12500/15000  loss=0.951  acc=0.574  meas_acc=0.541  H_waist=0.229  MI_F_waist=1.653  D_waist=2.07  16.8it/s  ETA=2.5m
+[17:20:24]   seed 20261429  it  13000/15000  loss=0.914  acc=0.587  meas_acc=0.653  H_waist=0.249  MI_F_waist=1.785  D_waist=2.41  16.7it/s  ETA=2.0m
+[17:20:53]   seed 20261429  it  13500/15000  loss=1.034  acc=0.527  meas_acc=0.504  H_waist=0.218  MI_F_waist=1.540  D_waist=2.27  16.7it/s  ETA=1.5m
+[17:21:21]   seed 20261429  it  14000/15000  loss=1.213  acc=0.440  meas_acc=0.336  H_waist=0.168  MI_F_waist=1.108  D_waist=1.46  16.8it/s  ETA=1.0m
+[17:21:49]   seed 20261429  it  14500/15000  loss=1.016  acc=0.525  meas_acc=0.543  H_waist=0.219  MI_F_waist=1.569  D_waist=2.32  16.8it/s  ETA=0.5m
+[17:22:18]   seed 20261429  it  14999/15000  loss=1.030  acc=0.517  meas_acc=0.535  H_waist=0.234  MI_F_waist=1.611  D_waist=2.43  16.8it/s  ETA=0.0m
+[17:22:18]   seed 20261429 done. final acc=0.535, wall=14.9m
+[17:22:18] === seed 3/4 (torch_seed=20262429) ===
+[17:22:19]   seed 20262429  it      0/15000  loss=2.080  acc=0.134  meas_acc=0.118  H_waist=0.090  MI_F_waist=0.037  D_waist=4.23  1.1it/s  ETA=220.7m
+[17:22:46]   seed 20262429  it    500/15000  loss=1.813  acc=0.221  meas_acc=0.236  H_waist=0.091  MI_F_waist=0.518  D_waist=1.00  18.0it/s  ETA=13.4m
+[17:23:17]   seed 20262429  it   1000/15000  loss=1.334  acc=0.425  meas_acc=0.613  H_waist=0.270  MI_F_waist=1.694  D_waist=2.34  17.2it/s  ETA=13.6m
+[17:23:44]   seed 20262429  it   1500/15000  loss=0.867  acc=0.644  meas_acc=0.688  H_waist=0.305  MI_F_waist=1.951  D_waist=2.47  17.7it/s  ETA=12.7m
+[17:24:11]   seed 20262429  it   2000/15000  loss=0.746  acc=0.702  meas_acc=0.717  H_waist=0.330  MI_F_waist=2.064  D_waist=2.59  17.8it/s  ETA=12.2m
+[17:24:37]   seed 20262429  it   2500/15000  loss=0.709  acc=0.706  meas_acc=0.736  H_waist=0.342  MI_F_waist=2.084  D_waist=2.65  18.0it/s  ETA=11.6m
+[17:25:05]   seed 20262429  it   3000/15000  loss=0.706  acc=0.707  meas_acc=0.742  H_waist=0.342  MI_F_waist=2.098  D_waist=2.68  18.0it/s  ETA=11.1m
+[17:25:32]   seed 20262429  it   3500/15000  loss=0.709  acc=0.710  meas_acc=0.729  H_waist=0.341  MI_F_waist=2.063  D_waist=2.67  18.1it/s  ETA=10.6m
+[17:26:01]   seed 20262429  it   4000/15000  loss=0.726  acc=0.696  meas_acc=0.719  H_waist=0.330  MI_F_waist=2.022  D_waist=2.33  18.0it/s  ETA=10.2m
+[17:26:28]   seed 20262429  it   4500/15000  loss=0.734  acc=0.690  meas_acc=0.692  H_waist=0.331  MI_F_waist=1.976  D_waist=2.52  18.1it/s  ETA=9.7m
+[17:26:57]   seed 20262429  it   5000/15000  loss=0.760  acc=0.645  meas_acc=0.618  H_waist=0.312  MI_F_waist=1.875  D_waist=2.41  18.0it/s  ETA=9.3m
+[17:27:23]   seed 20262429  it   5500/15000  loss=0.805  acc=0.605  meas_acc=0.578  H_waist=0.302  MI_F_waist=1.808  D_waist=2.36  18.1it/s  ETA=8.8m
+[17:27:50]   seed 20262429  it   6000/15000  loss=0.848  acc=0.583  meas_acc=0.606  H_waist=0.293  MI_F_waist=1.837  D_waist=2.38  18.1it/s  ETA=8.3m
+[17:28:17]   seed 20262429  it   6500/15000  loss=0.832  acc=0.591  meas_acc=0.600  H_waist=0.304  MI_F_waist=1.875  D_waist=2.34  18.1it/s  ETA=7.8m
+[17:28:45]   seed 20262429  it   7000/15000  loss=0.895  acc=0.582  meas_acc=0.641  H_waist=0.312  MI_F_waist=1.889  D_waist=2.53  18.1it/s  ETA=7.4m
+[17:29:14]   seed 20262429  it   7500/15000  loss=0.862  acc=0.600  meas_acc=0.570  H_waist=0.274  MI_F_waist=1.770  D_waist=2.48  18.1it/s  ETA=6.9m
+[17:29:45]   seed 20262429  it   8000/15000  loss=0.878  acc=0.594  meas_acc=0.598  H_waist=0.276  MI_F_waist=1.789  D_waist=2.55  17.9it/s  ETA=6.5m
+[17:30:12]   seed 20262429  it   8500/15000  loss=0.842  acc=0.604  meas_acc=0.585  H_waist=0.282  MI_F_waist=1.863  D_waist=2.84  18.0it/s  ETA=6.0m
+[17:30:41]   seed 20262429  it   9000/15000  loss=0.821  acc=0.616  meas_acc=0.610  H_waist=0.302  MI_F_waist=1.897  D_waist=2.54  17.9it/s  ETA=5.6m
+[17:31:10]   seed 20262429  it   9500/15000  loss=0.775  acc=0.659  meas_acc=0.697  H_waist=0.312  MI_F_waist=1.956  D_waist=2.71  17.9it/s  ETA=5.1m
+[17:31:38]   seed 20262429  it  10000/15000  loss=0.776  acc=0.658  meas_acc=0.631  H_waist=0.305  MI_F_waist=1.869  D_waist=2.36  17.9it/s  ETA=4.7m
+[17:32:03]   seed 20262429  it  10500/15000  loss=0.938  acc=0.580  meas_acc=0.430  H_waist=0.195  MI_F_waist=1.235  D_waist=1.97  18.0it/s  ETA=4.2m
+[17:32:27]   seed 20262429  it  11000/15000  loss=1.228  acc=0.424  meas_acc=0.536  H_waist=0.239  MI_F_waist=1.608  D_waist=2.52  18.1it/s  ETA=3.7m
+[17:32:50]   seed 20262429  it  11500/15000  loss=0.931  acc=0.560  meas_acc=0.572  H_waist=0.249  MI_F_waist=1.694  D_waist=2.65  18.2it/s  ETA=3.2m
+[17:33:15]   seed 20262429  it  12000/15000  loss=0.906  acc=0.562  meas_acc=0.559  H_waist=0.257  MI_F_waist=1.717  D_waist=2.70  18.3it/s  ETA=2.7m
+[17:33:39]   seed 20262429  it  12500/15000  loss=0.932  acc=0.554  meas_acc=0.548  H_waist=0.238  MI_F_waist=1.615  D_waist=2.49  18.4it/s  ETA=2.3m
+[17:34:04]   seed 20262429  it  13000/15000  loss=0.961  acc=0.545  meas_acc=0.370  H_waist=0.161  MI_F_waist=0.960  D_waist=1.52  18.4it/s  ETA=1.8m
+[17:34:28]   seed 20262429  it  13500/15000  loss=1.487  acc=0.341  meas_acc=0.315  H_waist=0.130  MI_F_waist=0.731  D_waist=2.44  18.5it/s  ETA=1.4m
+[17:34:53]   seed 20262429  it  14000/15000  loss=1.312  acc=0.391  meas_acc=0.403  H_waist=0.197  MI_F_waist=1.298  D_waist=2.12  18.5it/s  ETA=0.9m
+[17:35:23]   seed 20262429  it  14500/15000  loss=1.206  acc=0.434  meas_acc=0.477  H_waist=0.221  MI_F_waist=1.409  D_waist=1.77  18.5it/s  ETA=0.4m
+[17:35:56]   seed 20262429  it  14999/15000  loss=1.427  acc=0.323  meas_acc=0.305  H_waist=0.125  MI_F_waist=0.863  D_waist=1.19  18.3it/s  ETA=0.0m
+[17:35:56]   seed 20262429 done. final acc=0.305, wall=13.6m
+[17:35:56] === seed 4/4 (torch_seed=20263429) ===
+[17:35:57]   seed 20263429  it      0/15000  loss=2.081  acc=0.132  meas_acc=0.152  H_waist=0.194  MI_F_waist=0.128  D_waist=2.90  1.1it/s  ETA=235.1m
+[17:36:21]   seed 20263429  it    500/15000  loss=1.849  acc=0.214  meas_acc=0.232  H_waist=0.091  MI_F_waist=0.547  D_waist=1.00  20.4it/s  ETA=11.9m
+[17:36:47]   seed 20263429  it   1000/15000  loss=1.499  acc=0.327  meas_acc=0.546  H_waist=0.274  MI_F_waist=1.846  D_waist=2.40  19.6it/s  ETA=11.9m
+[17:37:12]   seed 20263429  it   1500/15000  loss=0.823  acc=0.648  meas_acc=0.715  H_waist=0.311  MI_F_waist=2.009  D_waist=2.49  19.7it/s  ETA=11.4m
+[17:37:36]   seed 20263429  it   2000/15000  loss=0.754  acc=0.672  meas_acc=0.706  H_waist=0.342  MI_F_waist=2.075  D_waist=2.51  20.0it/s  ETA=10.8m
+[17:37:59]   seed 20263429  it   2500/15000  loss=0.758  acc=0.655  meas_acc=0.647  H_waist=0.333  MI_F_waist=1.927  D_waist=2.47  20.4it/s  ETA=10.2m
+[17:38:22]   seed 20263429  it   3000/15000  loss=0.776  acc=0.633  meas_acc=0.639  H_waist=0.330  MI_F_waist=1.943  D_waist=2.46  20.6it/s  ETA=9.7m
+[17:38:47]   seed 20263429  it   3500/15000  loss=0.802  acc=0.609  meas_acc=0.605  H_waist=0.319  MI_F_waist=1.874  D_waist=2.40  20.6it/s  ETA=9.3m
+[17:39:13]   seed 20263429  it   4000/15000  loss=0.817  acc=0.608  meas_acc=0.618  H_waist=0.306  MI_F_waist=1.849  D_waist=2.38  20.3it/s  ETA=9.0m
+[17:39:38]   seed 20263429  it   4500/15000  loss=0.855  acc=0.582  meas_acc=0.604  H_waist=0.288  MI_F_waist=1.800  D_waist=2.30  20.3it/s  ETA=8.6m
+[17:40:03]   seed 20263429  it   5000/15000  loss=0.892  acc=0.572  meas_acc=0.589  H_waist=0.280  MI_F_waist=1.772  D_waist=2.19  20.3it/s  ETA=8.2m
+[17:40:28]   seed 20263429  it   5500/15000  loss=0.905  acc=0.577  meas_acc=0.596  H_waist=0.285  MI_F_waist=1.798  D_waist=1.97  20.2it/s  ETA=7.8m
+[17:40:54]   seed 20263429  it   6000/15000  loss=0.901  acc=0.563  meas_acc=0.548  H_waist=0.272  MI_F_waist=1.721  D_waist=2.10  20.2it/s  ETA=7.4m
+[17:41:19]   seed 20263429  it   6500/15000  loss=0.894  acc=0.572  meas_acc=0.614  H_waist=0.283  MI_F_waist=1.742  D_waist=2.38  20.1it/s  ETA=7.0m
+[17:41:46]   seed 20263429  it   7000/15000  loss=0.895  acc=0.576  meas_acc=0.544  H_waist=0.266  MI_F_waist=1.734  D_waist=2.56  20.0it/s  ETA=6.7m
+[17:42:11]   seed 20263429  it   7500/15000  loss=0.892  acc=0.573  meas_acc=0.604  H_waist=0.268  MI_F_waist=1.744  D_waist=2.49  20.0it/s  ETA=6.2m
+[17:42:38]   seed 20263429  it   8000/15000  loss=0.936  acc=0.577  meas_acc=0.610  H_waist=0.243  MI_F_waist=1.718  D_waist=2.33  19.9it/s  ETA=5.9m
+[17:43:01]   seed 20263429  it   8500/15000  loss=0.990  acc=0.548  meas_acc=0.589  H_waist=0.253  MI_F_waist=1.657  D_waist=2.37  20.0it/s  ETA=5.4m
+[17:43:24]   seed 20263429  it   9000/15000  loss=1.149  acc=0.461  meas_acc=0.447  H_waist=0.214  MI_F_waist=1.348  D_waist=2.06  20.1it/s  ETA=5.0m
+[17:43:47]   seed 20263429  it   9500/15000  loss=1.093  acc=0.472  meas_acc=0.510  H_waist=0.242  MI_F_waist=1.574  D_waist=2.20  20.2it/s  ETA=4.5m
+[17:44:10]   seed 20263429  it  10000/15000  loss=1.494  acc=0.336  meas_acc=0.320  H_waist=0.126  MI_F_waist=0.731  D_waist=1.55  20.3it/s  ETA=4.1m
+[17:44:32]   seed 20263429  it  10500/15000  loss=1.991  acc=0.167  meas_acc=0.135  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.00  20.4it/s  ETA=3.7m
+[17:44:56]   seed 20263429  it  11000/15000  loss=2.082  acc=0.125  meas_acc=0.123  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.00  20.4it/s  ETA=3.3m
+[17:45:19]   seed 20263429  it  11500/15000  loss=2.082  acc=0.125  meas_acc=0.132  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.00  20.5it/s  ETA=2.9m
+[17:45:42]   seed 20263429  it  12000/15000  loss=2.069  acc=0.133  meas_acc=0.125  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.01  20.5it/s  ETA=2.4m
+[17:46:06]   seed 20263429  it  12500/15000  loss=2.083  acc=0.126  meas_acc=0.129  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.01  20.5it/s  ETA=2.0m
+[17:46:32]   seed 20263429  it  13000/15000  loss=2.082  acc=0.125  meas_acc=0.117  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.01  20.5it/s  ETA=1.6m
+[17:46:56]   seed 20263429  it  13500/15000  loss=2.083  acc=0.125  meas_acc=0.125  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.01  20.5it/s  ETA=1.2m
+[17:47:20]   seed 20263429  it  14000/15000  loss=2.083  acc=0.125  meas_acc=0.137  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.01  20.5it/s  ETA=0.8m
+[17:47:45]   seed 20263429  it  14500/15000  loss=2.082  acc=0.125  meas_acc=0.116  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.01  20.5it/s  ETA=0.4m
+[17:48:11]   seed 20263429  it  14999/15000  loss=2.082  acc=0.125  meas_acc=0.124  H_waist=-0.000  MI_F_waist=0.000  D_waist=1.01  20.4it/s  ETA=0.0m
+[17:48:11]   seed 20263429 done. final acc=0.124, wall=12.2m
+[17:48:11] === ALL DONE. total wall = 0.93h ===
