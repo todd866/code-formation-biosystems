@@ -1,5 +1,5 @@
 Finite codes form at boundaries that cannot carry substrate dynamics.
 Retained low-loss protocols are partitions with action-coherent fibers.
 Action-incompatible regimes force nontrivial codeword separation.
-Bounded self-maintenance axioms imply the forced-code conditions.
+Bounded self-maintenance makes the no-code option pay a regret floor.
 Anticipation rides on synchronization, not on simulating future microstates.
